@@ -11,7 +11,7 @@ Turn any web page into a clean view. It's based on arc90's readability project.
 * [jsdom](https://github.com/tmpvar/jsdom)
 * [fetch](https://github.com/andris9/fetch)
 
-## Example
+## Usage
 
 `readability.read(html [, options], callback)`
 
