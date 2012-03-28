@@ -1,18 +1,18 @@
 {
-  "name": "readability",
+  "name": "node-readability",
   "version": "0.0.1",
   "author": "Zihua Li",
   "description": "Turn any web page into a clean view",
-  "homepage": "https://github.com/luin/readability",
+  "homepage": "https://github.com/luin/node-readability",
   "repository": {
     "type": "git",
-    "url": "git://github.com/luin/readability.git"
+    "url": "git://github.com/luin/node-readability.git"
   },
   "main": "./src/readability",
   "licenses": [
     {
-      "type": "MIT",
-      "url": "http://github.com/andris9/fetch/blob/master/LICENSE"
+      "type": "Apache License 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
   "dependencies": {
@@ -21,6 +21,6 @@
   },
   "engines": ["node >=0.5.10"],
   "keywords": [
-    "readablity"
+    "readability"
   ]
 }

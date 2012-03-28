@@ -42,7 +42,7 @@ function Readablity(document, options) {
   };
 }
 
-Readablity.prototype.getArticleContent = function () {
+Readablity.prototype.getContent = function () {
   if (typeof this.cache['article-content'] !== 'undefined') {
     return this.cache['article-content'];
   }
@@ -59,7 +59,7 @@ Readablity.prototype.getArticleContent = function () {
   return this.cache['article-content'] = articleContent.innerHTML;
 }
 
-Readablity.prototype.getArticleTitle = function () {
+Readablity.prototype.getTitle = function () {
   if (typeof this.cache['article-title'] !== 'undefined') {
     return this.cache['article-title'];
   }
