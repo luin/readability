@@ -24,12 +24,11 @@ Example
 
     var readability = require('./readability');
 
-    // source file is iso-8859-15 but it is converted to utf-8 automatically
     readability.read('http://howtonode.org/really-simple-file-uploads', function(err, article) {
       console.log(article.getArticleContent());
     });
 
-**NB** If the file has been marked with charset other than utf-8, it is converted automatically. Charsets such as GBK, GB2312 is also supported via icon.
+**NB** If the file has been marked with charset other than utf-8, it is converted automatically. Charsets such as GBK, GB2312 is also supported via iconv.
 
 ## Options
 
@@ -53,7 +52,7 @@ Possible option values
 
 ## article
 
-Readability support lazy evaluation by passing `readResult` to the callback function.
+Readability support lazy evaluation by passing `article` object to the callback function.
 
 ### getContent()
 
