@@ -1,0 +1,26 @@
+{
+  "name": "readability",
+  "version": "0.0.1",
+  "author": "Zihua Li",
+  "description": "Turn any web page into a clean view",
+  "homepage": "https://github.com/luin/readability",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/luin/readability.git"
+  },
+  "main": "./src/readability",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/andris9/fetch/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "fetch": "0.2.x",
+    "jsdom": "0.2.x"
+  },
+  "engines": ["node >=0.5.10"],
+  "keywords": [
+    "readablity"
+  ]
+}
