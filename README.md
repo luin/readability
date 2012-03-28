@@ -1,6 +1,6 @@
 # node-readability
 
-Turn any web page into a clean view. It's based on arc90's readability project.
+Turn any web page into a clean view. This module is based on arc90's readability project.
 
 ## Install
 
@@ -19,7 +19,7 @@ Where
 
   * **html** url or html code.
   * **options** is an optional options object
-  * **callback** is the callback to run - `callback(error, read)`
+  * **callback** is the callback to run - `callback(error, article)`
 
 Example
 
