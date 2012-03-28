@@ -1,4 +1,4 @@
-var readability = require('../src/readablity');
+var readability = require('../src/readability');
 
 
 readability.debug(true);
