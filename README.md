@@ -7,7 +7,6 @@ Turn any web page into a clean view. This module is based on arc90's readability
     npm install node-readability
 
 ## Requirements
-* [node.js](http://nodejs.org/)
 * [jsdom](https://github.com/tmpvar/jsdom)
 * [fetch](https://github.com/andris9/fetch)
 
