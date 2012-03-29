@@ -66,7 +66,7 @@ Readablity.prototype.getTitle = function () {
 
   var title = this._document.title;
   var betterTitle;
-  var commonSeparatingCharacters = ['|', '_', '-', '«'];
+  var commonSeparatingCharacters = ['|', '_', '-', '«', '»'];
   commonSeparatingCharacters.forEach(function (char) {
     var tmpArray = title.split(char);
     if (tmpArray.length > 1) {
