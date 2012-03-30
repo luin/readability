@@ -48,10 +48,12 @@ Readablity.prototype.getTitle = function () {
   var title = this._document.title;
   var betterTitle;
   var commonSeparatingCharacters = ['|', '_', '-', '«', '»'];
+
+  var self = this;
   commonSeparatingCharacters.forEach(function (char) {
     var tmpArray = title.split(char);
     if (tmpArray.length > 1) {
-      if (betterTitle) return this.cache['article-title'] = title;
+      if (betterTitle) return self.cache['article-title'] = title;
       betterTitle = tmpArray[0].trim();
     }
   });
