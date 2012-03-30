@@ -304,7 +304,7 @@ var getInnerText = module.exports.getInnerText = function (e, normalizeSpaces) {
 
   normalizeSpaces = (typeof normalizeSpaces == 'undefined') ? true : normalizeSpaces;
 
-  textContent = e.textContent.replace(regexps.trimRe, "");
+  textContent = e.textContent.trim();
 
   if (normalizeSpaces) return textContent.replace(regexps.normalizeRe, " ");
   else return textContent;
@@ -331,12 +331,15 @@ var getCharCount = module.exports.getCharCount = function (e, s) {
  **/
 var getLinkDensity = module.exports.getLinkDensity = function (e) {
   var links = e.getElementsByTagName("a");
+
   var textLength = getInnerText(e).length;
   var linkLength = 0;
   for (var i = 0, il = links.length; i < il; i++) {
+    var href = links[i].getAttribute('href');
+    // hack for <h2><a href="#menu"></a></h2> / <h2><a></a></h2>
+    if(!href || (href.length > 0 && href[0] === '#')) continue;
     linkLength += getInnerText(links[i]).length;
   }
-
   return linkLength / textLength;
 }
 
@@ -488,6 +491,7 @@ var prepArticle = module.exports.prepArticle = function (articleContent) {
    * as a header and not a subheader, so remove it since we already have a header.
    ***/
   if (articleContent.getElementsByTagName('h2').length == 1) clean(articleContent, "h2");
+
   clean(articleContent, "iframe");
 
   cleanHeaders(articleContent);
