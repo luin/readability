@@ -8,10 +8,6 @@ exports.debug = function (debug) {
 
 exports.debug(false);
 
-function trim(string) {
-  return string.replace(/(^\s*)(\s*$)/g, '');
-}
-
 function Readablity(document, options) {
   this._document = document;
   this.iframeLoads = 0;
@@ -56,7 +52,7 @@ Readablity.prototype.getTitle = function () {
     var tmpArray = title.split(char);
     if (tmpArray.length > 1) {
       if (betterTitle) return this.cache['article-title'] = title;
-      betterTitle = trim(tmpArray[0]);
+      betterTitle = tmpArray[0].trim();
     }
   });
 
@@ -74,8 +70,6 @@ Readablity.prototype.getDocument = function () {
 Readablity.prototype.getHTML = function () {
   return this._document.getElementsByTagName('html')[0].innerHTML;
 }
-
-
 
 function read(html, options, callback) {
   if (typeof options === 'function') {
