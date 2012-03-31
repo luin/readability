@@ -111,12 +111,11 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
         // EXPERIMENTAL
         node.childNodes.forEach(function (childNode) {
           if (childNode.nodeType == 3 /*TEXT_NODE*/ ) {
-            dbg("replacing text node with a p tag with the same content.");
-            var p = document.createElement('p');
-            p.innerHTML = childNode.nodeValue;
-            p.style.display = 'inline';
-            p.className = 'readability-styled';
-            childNode.parentNode.replaceChild(p, childNode);
+            // use span instead of p. Need more tests.
+            dbg("replacing text node with a span tag with the same content.");
+            var span = document.createElement('span');
+            span.innerHTML = childNode.nodeValue;
+            childNode.parentNode.replaceChild(span, childNode);
           }
         });
       }
@@ -260,7 +259,7 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
  * @param Element
  * @return void
  **/
-var cleanStyles = module.exports.cleanStyles = function (e) {
+function cleanStyles (e) {
   if (!e) return;
 
 
@@ -287,7 +286,7 @@ var cleanStyles = module.exports.cleanStyles = function (e) {
  * @param Element
  * @return void
  **/
-var killBreaks = module.exports.killBreaks = function (e) {
+function killBreaks (e) {
   e.innerHTML = e.innerHTML.replace(regexps.killBreaksRe, '<br />');
 }
 
@@ -299,7 +298,7 @@ var killBreaks = module.exports.killBreaks = function (e) {
  * @param Element
  * @return string
  **/
-var getInnerText = module.exports.getInnerText = function (e, normalizeSpaces) {
+getInnerText = exports.getInnerText = function (e, normalizeSpaces) {
   var textContent = "";
 
   normalizeSpaces = (typeof normalizeSpaces == 'undefined') ? true : normalizeSpaces;
@@ -317,7 +316,7 @@ var getInnerText = module.exports.getInnerText = function (e, normalizeSpaces) {
  * @param string - what to split on. Default is ","
  * @return number (integer)
  **/
-var getCharCount = module.exports.getCharCount = function (e, s) {
+function getCharCount (e, s) {
   s = s || ",";
   return getInnerText(e).split(s).length;
 }
@@ -329,7 +328,7 @@ var getCharCount = module.exports.getCharCount = function (e, s) {
  * @param Element
  * @return number (float)
  **/
-var getLinkDensity = module.exports.getLinkDensity = function (e) {
+function getLinkDensity (e) {
   var links = e.getElementsByTagName("a");
 
   var textLength = getInnerText(e).length;
@@ -350,7 +349,7 @@ var getLinkDensity = module.exports.getLinkDensity = function (e) {
  * @param Element
  * @return number (Integer)
  **/
-var getClassWeight = module.exports.getClassWeight = function (e) {
+function getClassWeight (e) {
   var weight = 0;
 
   /* Look for a special classname */
@@ -378,7 +377,7 @@ var getClassWeight = module.exports.getClassWeight = function (e) {
  * @param string tag to clean
  * @return void
  **/
-var clean = module.exports.clean = function (e, tag) {
+function clean (e, tag) {
   var targetList = e.getElementsByTagName(tag);
   var isEmbed = (tag == 'object' || tag == 'embed');
 
@@ -398,7 +397,7 @@ var clean = module.exports.clean = function (e, tag) {
  *
  * @return void
  **/
-var cleanConditionally = module.exports.cleanConditionally = function (e, tag) {
+function cleanConditionally(e, tag) {
   var tagsList = e.getElementsByTagName(tag);
   var curTagsLength = tagsList.length;
 
@@ -467,10 +466,10 @@ var cleanConditionally = module.exports.cleanConditionally = function (e, tag) {
  * @param Element
  * @return void
  **/
-var cleanHeaders = module.exports.cleanHeaders = function (e) {
+function cleanHeaders (e) {
   for (var headerIndex = 1; headerIndex < 7; headerIndex++) {
     var headers = e.getElementsByTagName('h' + headerIndex);
-    for (var i = headers.length - 1; i >= 0; i--) {
+    for (var i = headers.length - 1; i >= 0; --i) {
       if (getClassWeight(headers[i]) < 0 || getLinkDensity(headers[i]) > 0.33) {
         headers[i].parentNode.removeChild(headers[i]);
       }
@@ -478,7 +477,26 @@ var cleanHeaders = module.exports.cleanHeaders = function (e) {
   }
 }
 
-var prepArticle = module.exports.prepArticle = function (articleContent) {
+/**
+ * Remove the header that doesn't have next sibling.
+ *
+ * @param Element
+ * @return void
+ **/
+
+function cleanSingleHeader (e) {
+  for (var headerIndex = 1; headerIndex < 7; headerIndex++) {
+    var headers = e.getElementsByTagName('h' + headerIndex);
+    for (var i = headers.length - 1; i >= 0; --i) {
+      if (headers[i].nextSibling === null) {
+        headers[i].parentNode.removeChild(headers[i]);
+      }
+    }
+  }
+
+}
+
+function prepArticle (articleContent) {
   cleanStyles(articleContent);
   killBreaks(articleContent);
 
@@ -513,6 +531,8 @@ var prepArticle = module.exports.prepArticle = function (articleContent) {
     }
   }
 
+  cleanSingleHeader(articleContent);
+
   try {
     articleContent.innerHTML = articleContent.innerHTML.replace(/<br[^>]*>\s*<p/gi, '<p');
   } catch (e) {
@@ -528,7 +548,7 @@ var prepArticle = module.exports.prepArticle = function (articleContent) {
  * @param Element
  * @return void
  **/
-var initializeNode = module.exports.initializeNode = function (node) {
+function initializeNode (node) {
   node.readability = {
     "contentScore": 0
   };
