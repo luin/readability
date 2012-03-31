@@ -1,6 +1,6 @@
 {
   "name": "node-readability",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Zihua Li",
   "description": "Turn any web page into a clean view",
   "homepage": "https://github.com/luin/node-readability",

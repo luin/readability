@@ -28,9 +28,11 @@ Example
       console.log(article.getArticleContent());
     });
 
-**NB** If the file has been marked with charset other than utf-8, it is converted automatically. Charsets such as GBK, GB2312 is also supported via iconv.
+**NB** If the file has been marked with charset other than utf-8, it is converted automatically. Charsets such as GBK, GB2312 is also supported via [iconv](https://github.com/bnoordhuis/node-iconv).
 
 ## Options
+
+node-readability support all the options that [fetch](https://github.com/andris9/fetch) support.
 
 Possible option values
 
@@ -51,8 +53,6 @@ Possible option values
  * **agent** pass-through http.request agent parameter
 
 ## article
-
-Readability support lazy evaluation by passing `article` object to the callback function.
 
 ### getContent()
 
