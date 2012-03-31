@@ -138,37 +138,37 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
     var innerText = getInnerText(paragraph);
 
     // If this paragraph is less than 25 characters, don't even count it. 
-    if (innerText.length >= 25) {
+    if (innerText.length < 25) continue;
 
-      // Initialize readability data for the parent.
-      if (typeof parentNode.readability == 'undefined') {
-        initializeNode(parentNode);
-        candidates.push(parentNode);
-      }
-
-      // Initialize readability data for the grandparent.
-      if (typeof grandParentNode.readability == 'undefined') {
-        initializeNode(grandParentNode);
-        candidates.push(grandParentNode);
-      }
-
-      var contentScore = 0;
-
-      // Add a point for the paragraph itself as a base. */
-      ++contentScore;
-
-      // Add points for any commas within this paragraph */
-      contentScore += innerText.split(',').length;
-
-      // For every 100 characters in this paragraph, add another point. Up to 3 points. */
-      contentScore += Math.min(Math.floor(innerText.length / 100), 3);
-
-      // Add the score to the parent. The grandparent gets half. */
-      parentNode.readability.contentScore += contentScore;
-      grandParentNode.readability.contentScore += contentScore / 2;
+    // Initialize readability data for the parent.
+    if (typeof parentNode.readability == 'undefined') {
+      initializeNode(parentNode);
+      candidates.push(parentNode);
     }
 
+    // Initialize readability data for the grandparent.
+    if (typeof grandParentNode.readability == 'undefined') {
+      initializeNode(grandParentNode);
+      candidates.push(grandParentNode);
+    }
+
+    var contentScore = 0;
+
+    // Add a point for the paragraph itself as a base. */
+    ++contentScore;
+
+    // Add points for any commas within this paragraph */
+    // support Chinese commas.
+    contentScore += innerText.replace('，', ',').split(',').length;
+
+    // For every 100 characters in this paragraph, add another point. Up to 3 points. */
+    contentScore += Math.min(Math.floor(innerText.length / 100), 3);
+
+    // Add the score to the parent. The grandparent gets half. */
+    parentNode.readability.contentScore += contentScore;
+    grandParentNode.readability.contentScore += contentScore / 2;
   }
+
 
   /**
    * After we've calculated scores, loop through all of the possible candidate nodes we found
@@ -437,7 +437,7 @@ function cleanConditionally(e, tag) {
       var contentLength = getInnerText(tagsList[i]).length;
       var toRemove = false;
 
-      if (img > p) {
+      if (img > p && img > 1) {
         toRemove = true;
       } else if (li > p && tag != "ul" && tag != "ol") {
         toRemove = true;
