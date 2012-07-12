@@ -521,7 +521,7 @@ function prepArticle (articleContent) {
 
   /* Remove extra paragraphs */
   var articleParagraphs = articleContent.getElementsByTagName('p');
-  for (i = articleParagraphs.length - 1; i >= 0; i--) {
+  for (var i = articleParagraphs.length - 1; i >= 0; i--) {
     var imgCount = articleParagraphs[i].getElementsByTagName('img').length;
     var embedCount = articleParagraphs[i].getElementsByTagName('embed').length;
     var objectCount = articleParagraphs[i].getElementsByTagName('object').length;
