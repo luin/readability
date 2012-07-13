@@ -28,7 +28,7 @@ Readablity.prototype.getContent = function () {
     return this.cache['article-content'];
   }
 
-  articleContent = helpers.grabArticle(this._document);
+  var articleContent = helpers.grabArticle(this._document);
   if (helpers.getInnerText(articleContent, false) === "") {
     this._document.body.innerHTML = this.cache['body'];
     articleContent = helpers.grabArticle(this._document, true);
