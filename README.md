@@ -25,7 +25,7 @@ Example
     var readability = require('./readability');
 
     readability.read('http://howtonode.org/really-simple-file-uploads', function(err, article) {
-      console.log(article.getArticleContent());
+      console.log(article.getContent());
     });
 
 **NB** If the file has been marked with charset other than utf-8, it is converted automatically. Charsets such as GBK, GB2312 is also supported via [iconv](https://github.com/bnoordhuis/node-iconv).
