@@ -86,6 +86,10 @@ function read(html, options, callback) {
   }
 
   function jsdomParse(error, meta, body) {
+    if (error) {
+      return callback(error);
+    }
+
     if (typeof body !== 'string') body = body.toString();
     jsdom.env({
       html: body,
