@@ -1,5 +1,5 @@
 var jsdom = require('jsdom'),
-  fetchUrl = require("fetch").fetchUrl,
+  fetchUrl = require('fetch').fetchUrl,
   helpers = require('./helpers');
 
 exports.debug = function (debug) {
@@ -8,7 +8,7 @@ exports.debug = function (debug) {
 
 exports.debug(false);
 
-function Readablity(document, options) {
+function Readablity(document) {
   this._document = document;
   this.iframeLoads = 0;
   // Cache the body HTML in case we need to re-use it later
@@ -29,10 +29,10 @@ Readablity.prototype.getContent = function () {
   }
 
   var articleContent = helpers.grabArticle(this._document);
-  if (helpers.getInnerText(articleContent, false) === "") {
+  if (helpers.getInnerText(articleContent, false) === '') {
     this._document.body.innerHTML = this.cache.body;
     articleContent = helpers.grabArticle(this._document, true);
-    if (helpers.getInnerText(articleContent, false) === "") {
+    if (helpers.getInnerText(articleContent, false) === '') {
       return this.cache['article-content'] = false;
     }
   }
