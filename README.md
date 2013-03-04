@@ -22,7 +22,7 @@ Where
 
 Example
 
-    var readability = require('./readability');
+    var readability = require('node-readability');
 
     readability.read('http://howtonode.org/really-simple-file-uploads', function(err, article) {
       console.log(article.getContent());
