@@ -1,6 +1,6 @@
 var jsdom = require('jsdom'),
   fetchUrl = require("fetch").fetchUrl,
-  helpers = require('./helpers')
+  helpers = require('./helpers');
 
 exports.debug = function (debug) {
   helpers.debug(debug);
@@ -30,7 +30,7 @@ Readablity.prototype.getContent = function () {
 
   var articleContent = helpers.grabArticle(this._document);
   if (helpers.getInnerText(articleContent, false) === "") {
-    this._document.body.innerHTML = this.cache['body'];
+    this._document.body.innerHTML = this.cache.body;
     articleContent = helpers.grabArticle(this._document, true);
     if (helpers.getInnerText(articleContent, false) === "") {
       return this.cache['article-content'] = false;
@@ -38,7 +38,7 @@ Readablity.prototype.getContent = function () {
   }
 
   return this.cache['article-content'] = articleContent.innerHTML;
-}
+};
 
 Readablity.prototype.getTitle = function () {
   if (typeof this.cache['article-title'] !== 'undefined') {
@@ -63,15 +63,15 @@ Readablity.prototype.getTitle = function () {
   }
 
   return this.cache['article-title'] = title;
-}
+};
 
 Readablity.prototype.getDocument = function () {
   return this._document;
-}
+};
 
 Readablity.prototype.getHTML = function () {
   return this._document.getElementsByTagName('html')[0].innerHTML;
-}
+};
 
 function read(html, options, callback) {
   if (typeof options === 'function') {
