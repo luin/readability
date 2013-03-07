@@ -6,10 +6,6 @@ Turn any web page into a clean view. This module is based on arc90's readability
 
     npm install node-readability
 
-## Requirements
-* [jsdom](https://github.com/tmpvar/jsdom)
-* [fetch](https://github.com/andris9/fetch)
-
 ## Usage
 
 `readability.read(html [, options], callback)`
@@ -45,7 +41,7 @@ Possible option values
  * **disableGzip** set to false, to disable content gzipping, needed for Node v0.5.9 which has buggy zlib
  * **cookies** an array of cookie definitions in the form of `['name=val']`
  * **cookieJar** for sharing cookies between requests, see below
- * **outputEncoding** 
+ * **outputEncoding**
  * **disableDecoding** set to true to disable automatic charset decoding to utf-8
  * **overrideCharset** set input encoding
  * **asyncDnsLoookup** use high performance asynchronous DNS resolution based on c-ares instead of a thread pool calling getaddrinfo(3)
