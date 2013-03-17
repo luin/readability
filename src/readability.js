@@ -1,6 +1,6 @@
-var jsdom = require('jsdom'),
-  fetchUrl = require('fetch').fetchUrl,
-  helpers = require('./helpers');
+var jsdom = require('jsdom');
+var fetchUrl = require('fetch').fetchUrl;
+var helpers = require('./helpers');
 
 exports.debug = function (debug) {
   helpers.debug(debug);
