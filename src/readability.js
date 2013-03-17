@@ -94,6 +94,8 @@ function read(html, options, callback) {
     jsdom.env({
       html: body,
       done: function (errors, window) {
+        // @todo If there is an error, callback will be called twice. Is this
+        // okay?!
         try {
           callback(null, new Readablity(window.document, options));
         } catch (e) {
