@@ -1,5 +1,4 @@
 var readability = require('../src/readability')
-  , fs = require('fs')
 
 // uncoment the following line to print the debug info to console.
 // readability.debug(true);
