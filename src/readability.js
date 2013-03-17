@@ -8,7 +8,7 @@ exports.debug = function (debug) {
 
 exports.debug(false);
 
-function Readablity(document) {
+function Readability(document) {
   this._document = document;
   this.iframeLoads = 0;
   // Cache the body HTML in case we need to re-use it later
@@ -23,7 +23,7 @@ function Readablity(document) {
   };
 }
 
-Readablity.prototype.getContent = function () {
+Readability.prototype.getContent = function () {
   if (typeof this.cache['article-content'] !== 'undefined') {
     return this.cache['article-content'];
   }
@@ -40,7 +40,7 @@ Readablity.prototype.getContent = function () {
   return this.cache['article-content'] = articleContent.innerHTML;
 };
 
-Readablity.prototype.getTitle = function () {
+Readability.prototype.getTitle = function () {
   if (typeof this.cache['article-title'] !== 'undefined') {
     return this.cache['article-title'];
   }
@@ -65,11 +65,11 @@ Readablity.prototype.getTitle = function () {
   return this.cache['article-title'] = title;
 };
 
-Readablity.prototype.getDocument = function () {
+Readability.prototype.getDocument = function () {
   return this._document;
 };
 
-Readablity.prototype.getHTML = function () {
+Readability.prototype.getHTML = function () {
   return this._document.getElementsByTagName('html')[0].innerHTML;
 };
 
@@ -95,7 +95,7 @@ function read(html, options, callback) {
       html: body,
       done: function (errors, window) {
         if (errors) return callback(errors);
-        callback(null, new Readablity(window.document, options));
+        callback(null, new Readability(window.document, options));
       }
     });
   }
