@@ -428,7 +428,7 @@ function cleanConditionally(e, tag) {
       var embedCount = 0;
       var embeds = tagsList[i].getElementsByTagName("embed");
       for (var ei = 0, il = embeds.length; ei < il; ei++) {
-        if (embeds[ei].src.search(regexps.videoRe) == -1) {
+        if (embeds[ei].src && embeds[ei].src.search(regexps.videoRe) == -1) {
           embedCount++;
         }
       }
