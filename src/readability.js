@@ -94,11 +94,8 @@ function read(html, options, callback) {
     jsdom.env({
       html: body,
       done: function (errors, window) {
-        try {
-          callback(null, new Readablity(window.document, options));
-        } catch (e) {
-          callback(e);
-        }
+        if (errors) return callback(errors);
+        callback(null, new Readablity(window.document, options));
       }
     });
   }
