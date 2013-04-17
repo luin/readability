@@ -11,4 +11,12 @@ describe('node-readability', function () {
       done();
     });
   });
+  it('should get document with frames', function (done) {
+    readability.read('http://www.whitehouse.gov/', function(err, read) {
+      if (err) return done(err);
+      var dom = read.getDocument();
+      read.getTitle().should.equal('The White House');
+      done();
+    });
+  });
 });
