@@ -15,13 +15,13 @@ var regexps = {
 
 var dbg;
 exports.debug = function (debug) {
-  dbg = (debug) ? console.log : function () {}
+  dbg = (debug) ? console.log : function () {};
 };
 
 /**
  * Prepare the HTML document for readability to scrape it.
  * This includes things like stripping javascript, CSS, and handling terrible markup.
- * 
+ *
  * @return void
  **/
 var prepDocument = module.exports.prepDocument = function (document) {
@@ -109,7 +109,7 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
         node.parentNode.replaceChild(newNode, node);
       } else {
         // EXPERIMENTAL
-        node.childNodes.forEach(function (childNode) {
+        node.childNodes._toArray().forEach(function (childNode) {
           if (childNode.nodeType == 3 /*TEXT_NODE*/ ) {
             // use span instead of p. Need more tests.
             dbg("replacing text node with a span tag with the same content.");
