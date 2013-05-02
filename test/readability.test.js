@@ -19,4 +19,10 @@ describe('node-readability', function () {
       done();
     });
   });
+  it('should handle the html that missing body tag', function (done) {
+    readability.read('<html><head><title>hi</title></head>hi!</html>', function (err, read) {
+      err.message.should.equal('No body tag was found.');
+      done();
+    });
+  });
 });

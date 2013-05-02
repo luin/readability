@@ -95,6 +95,7 @@ function read(html, options, callback) {
       html: body,
       done: function (errors, window) {
         if (errors) return callback(errors);
+        if (!window.document.body) return callback(new Error('No body tag was found.'));
         callback(null, new Readability(window.document, options));
       }
     });
