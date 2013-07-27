@@ -2,6 +2,7 @@ var jsdom = require('jsdom');
 var fetchUrl = require('fetch').fetchUrl;
 var helpers = require('./helpers');
 
+
 exports.debug = function (debug) {
   helpers.debug(debug);
 };
@@ -94,6 +95,7 @@ function read(html, options, callback) {
     jsdom.env({
       html: body,
       done: function (errors, window) {
+        window.document.originalURL = html;
         if (errors) return callback(errors);
         if (!window.document.body) return callback(new Error('No body tag was found.'));
         callback(null, new Readability(window.document, options));

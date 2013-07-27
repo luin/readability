@@ -1,3 +1,5 @@
+var url = require("url");
+
 // All of the regular expressions in use within readability.
 var regexps = {
   unlikelyCandidatesRe: /combx|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor/i,
@@ -460,6 +462,31 @@ function cleanConditionally(e, tag) {
   }
 }
 
+
+/**
+ * Converts relative urls to absolute for images and links
+ **/
+function fixLinks (e) {
+
+    function fixLink(link){
+        var fixed = url.resolve(e.ownerDocument.originalURL, link);
+        return fixed;
+    }
+
+    var imgs = e.getElementsByTagName('img');
+    for (var i = imgs.length - 1; i >= 0; --i) {
+          var src = imgs[i].getAttribute('src');
+          imgs[i].setAttribute('src', fixLink(src));
+    }
+
+    var as = e.getElementsByTagName('a');
+    for (var i = as.length - 1; i >= 0; --i) {
+        var href = as[i].getAttribute('href');
+        as[i].setAttribute('href', fixLink(href));
+    }
+
+}
+
 /**
  * Clean out spurious headers from an Element. Checks things like classnames and link density.
  *
@@ -539,6 +566,7 @@ function prepArticle (articleContent) {
     dbg("Cleaning innerHTML of breaks failed. This is an IE strict-block-elements bug. Ignoring.");
   }
 
+  fixLinks(articleContent);
 }
 
 /**
