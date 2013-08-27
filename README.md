@@ -1,12 +1,10 @@
 # node-readability
 
-Turn any web page into a clean view. This module is based on arc90's readability project.
-
-[![Build Status](https://travis-ci.org/luin/node-readability.png?branch=master)](https://travis-ci.org/luin/node-readability)
+node-readability的cheerio版。支持GBK、GB2312等编码的网页抓取和解析。Turn any web page into a clean view. This module is based on arc90's readability project.
 
 ## Install
 
-    npm install node-readability
+    npm install node-readability-cheerio
 
 ## Usage
 
@@ -25,6 +23,8 @@ Example
     readability.read('http://howtonode.org/really-simple-file-uploads', function(err, $) {
       console.log($('body').html());
     });
+
+More about '$': https://github.com/MatthewMueller/cheerio#selectors
 
 **NB** If the file has been marked with charset other than utf-8, it is converted automatically. Charsets such as GBK, GB2312 is also supported via [iconv](https://github.com/bnoordhuis/node-iconv).
 
@@ -49,11 +49,6 @@ Possible option values
  * **asyncDnsLoookup** use high performance asynchronous DNS resolution based on c-ares instead of a thread pool calling getaddrinfo(3)
  * **timeout** set a timeout in ms
  * **agent** pass-through http.request agent parameter
-
-## TODO
-
-  * Support more readability features
-  * Performance optimization
 
 ## License
 

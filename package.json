@@ -1,12 +1,12 @@
 {
-    "name": "node-readability",
+    "name": "node-readability-cheerio",
     "version": "0.0.8.1",
-    "author": "Zihua Li",
-    "description": "Turning any web page into a clean view.",
-    "homepage": "https://github.com/luin/node-readability",
+    "author": "indooorsman",
+    "description": "node-readability的cheerio版。支持GBK、GB2312等编码的网页抓取和解析。Turning any web page into a clean view.",
+    "homepage": "https://github.com/indooorsman/node-readability-cheerio",
     "repository": {
         "type": "git",
-        "url": "git://github.com/luin/node-readability.git"
+        "url": "git@github.com:indooorsman/node-readability-cheerio.git"
     },
     "main": "./src/readability",
     "licenses": [
