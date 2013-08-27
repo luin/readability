@@ -1,35 +1,28 @@
 {
-  "name": "node-readability",
-  "version": "0.0.8",
-  "author": "Zihua Li",
-  "description": "Turning any web page into a clean view.",
-  "homepage": "https://github.com/luin/node-readability",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/luin/node-readability.git"
-  },
-  "scripts": {
-    "test": "mocha -R spec"
-  },
-  "main": "./src/readability",
-  "licenses": [
-    {
-      "type": "Apache License 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
-    }
-  ],
-  "dependencies": {
-    "fetch": "0.3.x",
-    "jsdom": "0.6.x"
-  },
-  "engines": [
-    "node >=0.6.0"
-  ],
-  "keywords": [
-    "readability"
-  ],
-  "devDependencies": {
-    "mocha": "~1.8.2",
-    "should": "~1.2.2"
-  }
+    "name": "node-readability",
+    "version": "0.0.8.1",
+    "author": "Zihua Li",
+    "description": "Turning any web page into a clean view.",
+    "homepage": "https://github.com/luin/node-readability",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/luin/node-readability.git"
+    },
+    "main": "./src/readability",
+    "licenses": [
+        {
+            "type": "Apache License 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    ],
+    "dependencies": {
+        "fetch": "*",
+        "cheerio": "*"
+    },
+    "engines": [
+        "node >=0.6.0"
+    ],
+    "keywords": [
+        "readability"
+    ]
 }
