@@ -14,11 +14,11 @@ Where
 
   * **html** url or html code.
   * **options** is an optional options object
-  * **callback** is the callback to run - `callback(error, article)`
+  * **callback** is the callback to run - `callback(error, $)`
 
 Example
 
-    var readability = require('node-readability');
+    var readability = require('node-readability-cheerio');
 
     readability.read('http://howtonode.org/really-simple-file-uploads', function(err, $) {
       console.log($('body').html());
