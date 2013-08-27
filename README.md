@@ -8,7 +8,7 @@ node-readability的cheerio版。支持GBK、GB2312等编码的网页抓取和解
 
 ## Usage
 
-`readability.read(html [, options], callback)`
+    readability.read(html [, options], callback)
 
 Where
 
@@ -21,7 +21,7 @@ Example
     var readability = require('node-readability-cheerio');
 
     readability.read('http://howtonode.org/really-simple-file-uploads', function(err, $) {
-      console.log($('body').html());
+        console.log($('body').html());
     });
 
 More about '$': https://github.com/MatthewMueller/cheerio#selectors
