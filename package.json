@@ -1,6 +1,6 @@
 {
     "name": "node-readability-cheerio",
-    "version": "0.0.8.1",
+    "version": "0.0.1",
     "author": "indooorsman",
     "description": "node-readability的cheerio版。支持GBK、GB2312等编码的网页抓取和解析。Turning any web page into a clean view.",
     "homepage": "https://github.com/indooorsman/node-readability-cheerio",
