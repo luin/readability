@@ -1,4 +1,7 @@
-var readability = require('../src/readability');
+var readability = require('../src/readability')
+  , helpers = require('../src/helpers')
+  , jsdom = require( 'jsdom' )
+  , noBody = '<html><head><title>hi</title></head>hi!</html>'; 
 require('should');
 
 describe('node-readability', function () {
@@ -20,7 +23,14 @@ describe('node-readability', function () {
     });
   });
   it('should handle the html that missing body tag', function (done) {
-    readability.read('<html><head><title>hi</title></head>hi!</html>', function (err, read) {
+    readability.read(noBody, function (err, read) {
+      err.message.should.equal('No body tag was found.');
+      done();
+    });
+  });
+  it('should let helpers.grabArticle handle html that\'s missing a body tag', function (done) {
+    jsdom.env(noBody, [], function (errors, window) {
+      var err = helpers.grabArticle(window.document);
       err.message.should.equal('No body tag was found.');
       done();
     });

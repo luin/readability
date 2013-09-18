@@ -192,6 +192,8 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
    * We also have to copy the body node so it is something we can modify.
    **/
   if (topCandidate === null || topCandidate.tagName === "BODY") {
+    // With no top candidate, bail out if no body tag exists as last resort.
+    if (!document.body) return new Error("No body tag was found.");
     topCandidate = document.createElement("DIV");
     topCandidate.innerHTML = document.body.innerHTML;
     document.body.innerHTML = "";
