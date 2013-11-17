@@ -20,10 +20,10 @@
   ],
   "dependencies": {
     "fetch": "0.3.x",
-    "jsdom": "0.6.x"
+    "jsdom": "0.8.x"
   },
   "engines": [
-    "node >=0.6.0"
+    "node >=0.8.0"
   ],
   "keywords": [
     "readability"
