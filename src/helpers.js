@@ -93,7 +93,7 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
     var continueFlag = false;
     if (!preserveUnlikelyCandidates) {
       var unlikelyMatchString = node.className + node.id;
-      if (unlikelyMatchString.search(regexps.unlikelyCandidatesRe) !== -1 && unlikelyMatchString.search(regexps.okMaybeItsACandidateRe) == -1 && node.tagName !== "BODY") {
+      if (unlikelyMatchString.search(regexps.unlikelyCandidatesRe) !== -1 && unlikelyMatchString.search(regexps.okMaybeItsACandidateRe) == -1 && node.tagName !== 'HTML' && node.tagName !== "BODY") {
         dbg("Removing unlikely candidate - " + unlikelyMatchString);
         node.parentNode.removeChild(node);
         continueFlag = true;
