@@ -91,6 +91,7 @@ function read(html, options, callback) {
     }
 
     if (typeof body !== 'string') body = body.toString();
+    if (!body) return callback(new Error('Empty story body returned from URL'));
     jsdom.env({
       html: body,
       done: function (errors, window) {
