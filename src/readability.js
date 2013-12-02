@@ -2,7 +2,6 @@ var jsdom = require('jsdom');
 var fetchUrl = require('fetch').fetchUrl;
 var helpers = require('./helpers');
 
-
 exports.debug = function (debug) {
   helpers.debug(debug);
 };
@@ -22,9 +21,25 @@ function Readability(document) {
   this.cache = {
     'body': this._document.body.innerHTML
   };
+
+  this.__defineGetter__('content', function() {
+    return this.getContent(true);
+  });
+  this.__defineGetter__('title', function() {
+    return this.getTitle(true);
+  });
+  this.__defineGetter__('html', function() {
+    return this.getHTML(true);
+  });
+  this.__defineGetter__('document', function() {
+    return this.getDocument(true);
+  });
 }
 
-Readability.prototype.getContent = function () {
+Readability.prototype.getContent = function (notDeprecated) {
+  if (!notDeprecated) {
+    console.warn('The method `getContent()` is deprecated, using `content` property instead.');
+  }
   if (typeof this.cache['article-content'] !== 'undefined') {
     return this.cache['article-content'];
   }
@@ -41,7 +56,10 @@ Readability.prototype.getContent = function () {
   return this.cache['article-content'] = articleContent.innerHTML;
 };
 
-Readability.prototype.getTitle = function () {
+Readability.prototype.getTitle = function (notDeprecated) {
+  if (!notDeprecated) {
+    console.warn('The method `getTitle()` is deprecated, using `title` property instead.');
+  }
   if (typeof this.cache['article-title'] !== 'undefined') {
     return this.cache['article-title'];
   }
@@ -66,11 +84,17 @@ Readability.prototype.getTitle = function () {
   return this.cache['article-title'] = title;
 };
 
-Readability.prototype.getDocument = function () {
+Readability.prototype.getDocument = function (notDeprecated) {
+  if (!notDeprecated) {
+    console.warn('The method `getDocument()` is deprecated, using `document` property instead.');
+  }
   return this._document;
 };
 
-Readability.prototype.getHTML = function () {
+Readability.prototype.getHTML = function (notDeprecated) {
+  if (!notDeprecated) {
+    console.warn('The method `getHTML()` is deprecated, using `html` property instead.');
+  }
   return this._document.getElementsByTagName('html')[0].innerHTML;
 };
 
@@ -105,4 +129,8 @@ function read(html, options, callback) {
   }
 }
 
-module.exports.read = read;
+module.exports = read;
+module.exports.read = function() {
+  console.warn('`readability.read` is deprecated. Just use `var read = require("node-readability"); read(url...);`.');
+  return read.apply(this, arguments);
+};
