@@ -478,13 +478,19 @@ function fixLinks (e) {
     var imgs = e.getElementsByTagName('img');
     for (var i = imgs.length - 1; i >= 0; --i) {
           var src = imgs[i].getAttribute('src');
-          imgs[i].setAttribute('src', fixLink(src));
+          if(src)
+            {
+              imgs[i].setAttribute('src', fixLink(src));
+            }
     }
 
     var as = e.getElementsByTagName('a');
     for (var i = as.length - 1; i >= 0; --i) {
         var href = as[i].getAttribute('href');
-        as[i].setAttribute('href', fixLink(href));
+        if(href)
+          {
+            as[i].setAttribute('href', fixLink(href));
+          }
     }
 
 }
