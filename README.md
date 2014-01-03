@@ -88,3 +88,7 @@ https://github.com/luin/node-readability/graphs/contributors
 ## License
 
 This code is under the Apache License 2.0.  http://www.apache.org/licenses/LICENSE-2.0
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/luin/node-readability/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
