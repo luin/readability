@@ -19,8 +19,8 @@
     }
   ],
   "dependencies": {
-    "fetch": "0.3.x",
-    "jsdom": "0.8.x"
+    "jsdom": "0.8.x",
+    "request": "~2.31.0"
   },
   "engines": [
     "node >=0.8.0"

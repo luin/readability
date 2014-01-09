@@ -1,5 +1,5 @@
 var jsdom = require('jsdom');
-var fetchUrl = require('fetch').fetchUrl;
+var request = require('request');
 var helpers = require('./helpers');
 
 exports.debug = function (debug) {
@@ -105,7 +105,7 @@ function read(html, options, callback) {
   }
 
   if (html.indexOf('<') === -1) {
-    fetchUrl(html, options, jsdomParse);
+    request(html, options, jsdomParse)
   } else {
     jsdomParse(null, null, html);
   }
@@ -123,7 +123,8 @@ function read(html, options, callback) {
         window.document.originalURL = html;
         if (errors) return callback(errors);
         if (!window.document.body) return callback(new Error('No body tag was found.'));
-        callback(null, new Readability(window.document, options));
+        // add meta information to callback
+        callback(null, new Readability(window.document, options), meta);
       }
     });
   }
