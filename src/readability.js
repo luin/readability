@@ -120,7 +120,12 @@ function read(html, options, callback) {
     jsdom.env({
       html: body,
       done: function (errors, window) {
-        window.document.originalURL = html;
+        if(meta) {
+          window.document.originalURL = meta.request.uri.href;
+        } else {
+          window.document.originalURL = null;
+        }
+
         if (errors) return callback(errors);
         if (!window.document.body) return callback(new Error('No body tag was found.'));
         // add meta information to callback
