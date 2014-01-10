@@ -1,6 +1,8 @@
 var jsdom = require('jsdom');
 var request = require('request');
 var helpers = require('./helpers');
+var encodinglib = require("encoding");
+
 
 exports.debug = function (debug) {
   helpers.debug(debug);
@@ -98,14 +100,82 @@ Readability.prototype.getHTML = function (notDeprecated) {
   return this._document.getElementsByTagName('html')[0].innerHTML;
 };
 
+function _findHTMLCharset(htmlbuffer){
+
+  var body = htmlbuffer.toString("ascii"),
+    input, meta, charset;
+
+  if(meta = body.match(/<meta\s+http-equiv=["']content-type["'][^>]*?>/i)){
+    input = meta[0];
+  }
+
+  if(input){
+    charset = input.match(/charset\s?=\s?([a-zA-Z\-0-9]*);?/);
+    if(charset){
+      charset = (charset[1] || "").trim().toLowerCase();
+    }
+  }
+
+  if(!charset && (meta = body.match(/<meta\s+charset=["'](.*?)["']/i))){
+    charset = (meta[1] || "").trim().toLowerCase();
+  }
+
+  return charset;
+}
+
+function _parseContentType(str){
+  if(!str){
+    return {};
+  }
+  var parts = str.split(";"),
+    mimeType = parts.shift(),
+    charset, chparts;
+
+  for(var i=0, len = parts.length; i<len; i++){
+    chparts = parts[i].split("=");
+    if(chparts.length>1){
+      if(chparts[0].trim().toLowerCase() == "charset"){
+        charset = chparts[1];
+      }
+    }
+  }
+
+  return {
+    mimeType: (mimeType || "").trim().toLowerCase(),
+    charset: (charset || "UTF-8").trim().toLowerCase() // defaults to UTF-8
+  }
+}
+
 function read(html, options, callback) {
   if (typeof options === 'function') {
     callback = options;
     options = {};
   }
 
+  var overrideEncoding = options.encoding;
+
+  options.encoding = null;
+
   if (html.indexOf('<') === -1) {
-    request(html, options, jsdomParse)
+    request(html, options, function(err, res, buffer) {
+      if(err) {
+        return callback(err);
+      }
+
+      content_type = _parseContentType(res.headers['content-type']);
+
+      if(content_type.mimeType == "text/html"){
+        content_type.charset = _findHTMLCharset(buffer) || content_type.charset;
+      }
+
+      content_type.charset = (overrideEncoding || content_type.charset || "utf-8").trim().toLowerCase();
+
+      if(!content_type.charset.match(/^utf-?8$/i)){
+        buffer = encodinglib.convert(buffer, "UTF-8", content_type.charset);
+      }
+
+      jsdomParse(null, res, buffer.toString());
+    });
   } else {
     jsdomParse(null, null, html);
   }
