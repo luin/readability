@@ -49,8 +49,8 @@ See request lib to view all available options.
 node-readability has additional option cleanRules which allow set your own validation rule for tags.
 If true rule is valid, otherwise no.
 options.cleanRules = [callback(obj, tagName)]
-
-Ex:  {
+```
+read(url, {
         cleanRulers : [
           function(obj, tag) {
             if(tag === 'object') {
@@ -60,8 +60,8 @@ Ex:  {
             }
           }
         ]
-      }
-
+      }, function(err, article, response) {});
+```
 ## article object
 
 ### content
