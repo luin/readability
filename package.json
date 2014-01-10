@@ -20,7 +20,8 @@
   ],
   "dependencies": {
     "jsdom": "0.8.x",
-    "request": "~2.31.0"
+    "request": "~2.31.0",
+    "encoding": "~0.1.7"
   },
   "engines": [
     "node >=0.8.0"
