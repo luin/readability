@@ -162,7 +162,7 @@ function read(html, options, callback) {
         return callback(err);
       }
 
-      content_type = _parseContentType(res.headers['content-type']);
+      var content_type = _parseContentType(res.headers['content-type']);
 
       if(content_type.mimeType == "text/html"){
         content_type.charset = _findHTMLCharset(buffer) || content_type.charset;
