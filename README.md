@@ -46,6 +46,22 @@ Example
 node-readability will pass the options to [request](https://github.com/mikeal/request) directly.
 See request lib to view all available options.
 
+node-readability has additional option cleanRules which allow set your own validation rule for tags.
+If true rule is valid, otherwise no.
+options.cleanRules = [callback(obj, tagName)]
+
+Ex:  {
+        cleanRulers : [
+          function(obj, tag) {
+            if(tag === 'object') {
+              if(obj.getAttribute('class') === 'BrightcoveExperience') {
+                return true;
+              }
+            }
+          }
+        ]
+      }
+
 ## article object
 
 ### content

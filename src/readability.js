@@ -10,12 +10,13 @@ exports.debug = function (debug) {
 
 exports.debug(false);
 
-function Readability(document) {
+function Readability(document, options) {
   this._document = document;
   this.iframeLoads = 0;
   // Cache the body HTML in case we need to re-use it later
   this.bodyCache = null;
   this._articleContent = '';
+  helpers.setCleanRules(options.cleanRulers || []);
 
   this.cache = {};
 
