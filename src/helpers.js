@@ -20,6 +20,12 @@ exports.debug = function (debug) {
   dbg = (debug) ? console.log : function () {};
 };
 
+var cleanRules = [];
+
+module.exports.setCleanRules = function(rules) {
+  cleanRules = rules;
+};
+
 /**
  * Prepare the HTML document for readability to scrape it.
  * This includes things like stripping javascript, CSS, and handling terrible markup.
@@ -385,10 +391,28 @@ function clean (e, tag) {
   var targetList = e.getElementsByTagName(tag);
   var isEmbed = (tag == 'object' || tag == 'embed');
 
+
+
   for (var y = targetList.length - 1; y >= 0; y--) {
-    /* Allow youtube and vimeo videos through as people usually want to see those. */
-    if (isEmbed && targetList[y].innerHTML.search(regexps.videoRe) !== -1) {
+    //------- user clean handler -----------------
+    var validRule = false;
+    for(var i = 0; i < cleanRules.length; i++) {
+      if(cleanRules[i](targetList[y], tag) === true) {
+        validRule = true;
+        break;
+      }
+    }
+
+    if(validRule) {
       continue;
+    }
+    //------- end user clean handler -----------------
+
+    /* Allow youtube and vimeo videos through as people usually want to see those. */
+    if (isEmbed) {
+      if(targetList[y].innerHTML.search(regexps.videoRe) !== -1) {
+        continue;
+      }
     }
 
     targetList[y].parentNode.removeChild(targetList[y]);
