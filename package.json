@@ -31,6 +31,7 @@
   ],
   "devDependencies": {
     "mocha": "~1.8.2",
-    "should": "~1.2.2"
+    "should": "~2.1.1",
+    "nock": "~0.27.1"
   }
 }
