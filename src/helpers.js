@@ -493,30 +493,30 @@ function cleanConditionally(e, tag) {
  * Converts relative urls to absolute for images and links
  **/
 function fixLinks (e) {
+  if (!e.ownerDocument.originalURL) {
+    return;
+  }
+  function fixLink(link){
+    var fixed = url.resolve(e.ownerDocument.originalURL, link);
+    return fixed;
+  }
 
-    function fixLink(link){
-        var fixed = url.resolve(e.ownerDocument.originalURL, link);
-        return fixed;
+  var i;
+  var imgs = e.getElementsByTagName('img');
+  for (i = imgs.length - 1; i >= 0; --i) {
+    var src = imgs[i].getAttribute('src');
+    if(src) {
+      imgs[i].setAttribute('src', fixLink(src));
     }
+  }
 
-    var imgs = e.getElementsByTagName('img');
-    for (var i = imgs.length - 1; i >= 0; --i) {
-          var src = imgs[i].getAttribute('src');
-          if(src)
-            {
-              imgs[i].setAttribute('src', fixLink(src));
-            }
+  var as = e.getElementsByTagName('a');
+  for (i = as.length - 1; i >= 0; --i) {
+    var href = as[i].getAttribute('href');
+    if(href) {
+      as[i].setAttribute('href', fixLink(href));
     }
-
-    var as = e.getElementsByTagName('a');
-    for (var i = as.length - 1; i >= 0; --i) {
-        var href = as[i].getAttribute('href');
-        if(href)
-          {
-            as[i].setAttribute('href', fixLink(href));
-          }
-    }
-
+  }
 }
 
 /**

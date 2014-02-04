@@ -17,6 +17,12 @@ describe('parameters', function () {
       });
     });
 
+    it('should not resolve the url', function(done) {
+      read('<html><body><img src="image.png"></a></body></html>', function(err, read){
+        read.document.body.innerHTML.should.include('src="image.png"');
+        done();
+      });
+    });
   });
 
   describe('options', function() {
