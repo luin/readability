@@ -18,5 +18,12 @@ describe('result', function () {
       done();
     });
   });
+
+  it('should handle frames', function(done) {
+    read('<html><body><frame /><frame />Hello world!</body></html>', function(err, read){
+      read.document.body.innerHTML.should.include('Hello world!');
+      done();
+    });
+  });
 });
 

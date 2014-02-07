@@ -38,7 +38,7 @@ var prepDocument = module.exports.prepDocument = function (document) {
     var bestFrame = null;
     var bestFrameSize = 0;
 
-    frames.forEach(function (frame) {
+    Array.prototype.slice.call(frames, 0).forEach(function (frame) {
       var frameSize = frame.offsetWidth + frame.offsetHeight;
       var canAccessFrame = false;
       try {
