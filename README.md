@@ -9,6 +9,10 @@ Turn any web page into a clean view. This module is based on arc90's readability
 2. Support encodings such as GBK and GB2312.
 3. Converts relative urls to absolute for images and links automatically(Thank [Guillermo Baigorria](https://github.com/gbaygon) & [Tom Sutton](https://github.com/tomsutton1984)).
 
+## Example
+
+[Before](https://raw.githubusercontent.com/luin/node-readability/master/examples/before.png) -> [After](https://raw.githubusercontent.com/luin/node-readability/master/examples/after.png)
+
 ## Install
 
     npm install node-readability
