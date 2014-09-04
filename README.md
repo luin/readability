@@ -4,7 +4,7 @@ Turn any web page into a clean view. This module is based on arc90's readability
 
 [![Build Status](https://travis-ci.org/luin/node-readability.png?branch=master)](https://travis-ci.org/luin/node-readability)
 
-### Features
+## Features
 1. Optimized for more websites.
 2. Support encodings such as GBK and GB2312.
 3. Converts relative urls to absolute for images and links automatically(Thank [Guillermo Baigorria](https://github.com/gbaygon) & [Tom Sutton](https://github.com/tomsutton1984)).
