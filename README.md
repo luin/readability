@@ -5,9 +5,11 @@ Turn any web page into a clean view. This module is based on arc90's readability
 [![Build Status](https://travis-ci.org/luin/node-readability.png?branch=master)](https://travis-ci.org/luin/node-readability)
 
 ## Features
-1. Optimized for more websites.
-2. Support encodings such as GBK and GB2312.
-3. Converts relative urls to absolute for images and links automatically(Thank [Guillermo Baigorria](https://github.com/gbaygon) & [Tom Sutton](https://github.com/tomsutton1984)).
+1. Optimize for more websites.
+2. Support HTML5 tags(`article`, `section`) and Microdata API.
+3. Focus on both accuracy and performance. 4x times faster than arc90's version.
+3. Support encodings such as GBK and GB2312.
+4. Converts relative urls to absolute for images and links automatically(Thank [Guillermo Baigorria](https://github.com/gbaygon) & [Tom Sutton](https://github.com/tomsutton1984)).
 
 ## Example
 
