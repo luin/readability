@@ -2,10 +2,10 @@ var url = require("url");
 
 // All of the regular expressions in use within readability.
 var regexps = {
-  unlikelyCandidatesRe: /combx|modal|lightbox|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor/i,
+  unlikelyCandidatesRe: /combx|modal|lightbox|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor|social|teaserlist|time|tweet|twitter/i,
   okMaybeItsACandidateRe: /and|article|body|column|main/i,
   positiveRe: /article|body|content|entry|hentry|page|pagination|post|text/i,
-  negativeRe: /combx|comment|contact|foot|footer|footnote|link|media|meta|promo|related|scroll|shoutbox|sponsor|utility|tags|widget|social/i,
+  negativeRe: /combx|comment|contact|foot|footer|footnote|link|media|meta|promo|related|scroll|shoutbox|sponsor|utility|tags|widget/i,
   divToPElementsRe: /<(a|blockquote|dl|div|img|ol|p|pre|table|ul)/i,
   replaceBrsRe: /(<br[^>]*>[ \n\r\t]*){2,}/gi,
   replaceFontsRe: /<(\/?)font[^>]*>/gi,
@@ -562,14 +562,16 @@ function prepArticle(articleContent) {
   killBreaks(articleContent);
 
   /* Clean out junk from the article content */
-  clean(articleContent, "form");
-  clean(articleContent, "object");
-  clean(articleContent, "h1");
+  clean(articleContent, 'form');
+  clean(articleContent, 'object');
+  if (articleContent.getElementsByTagName('h1').length === 1) {
+    clean(articleContent, 'h1');
+  }
   /**
    * If there is only one h2, they are probably using it
    * as a header and not a subheader, so remove it since we already have a header.
    ***/
-  if (articleContent.getElementsByTagName('h2').length == 1) clean(articleContent, "h2");
+  if (articleContent.getElementsByTagName('h2').length === 1) clean(articleContent, "h2");
 
   clean(articleContent, "iframe");
 
