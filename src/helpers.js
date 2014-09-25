@@ -67,7 +67,7 @@ var prepDocument = module.exports.prepDocument = function(document) {
 
   // turn all double br's into p's
   // note, this is pretty costly as far as processing goes. Maybe optimize later.
-  document.body.innerHTML = document.body.innerHTML.replace(regexps.replaceBrsRe, '</p><p>').replace(regexps.replaceFontsRe, '<$1span>');
+  // document.body.innerHTML = document.body.innerHTML.replace(regexps.replaceBrsRe, '</p><p>').replace(regexps.replaceFontsRe, '<$1span>');
 };
 
 /***
