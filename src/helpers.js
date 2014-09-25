@@ -2,10 +2,10 @@ var url = require("url");
 
 // All of the regular expressions in use within readability.
 var regexps = {
-  unlikelyCandidatesRe: /combx|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor/i,
+  unlikelyCandidatesRe: /combx|modal|lightbox|comment|disqus|foot|header|menu|meta|nav|rss|shoutbox|sidebar|sponsor/i,
   okMaybeItsACandidateRe: /and|article|body|column|main/i,
   positiveRe: /article|body|content|entry|hentry|page|pagination|post|text/i,
-  negativeRe: /combx|comment|contact|foot|footer|footnote|link|media|meta|promo|related|scroll|shoutbox|sponsor|utility|tags|widget/i,
+  negativeRe: /combx|comment|contact|foot|footer|footnote|link|media|meta|promo|related|scroll|shoutbox|sponsor|utility|tags|widget|social/i,
   divToPElementsRe: /<(a|blockquote|dl|div|img|ol|p|pre|table|ul)/i,
   replaceBrsRe: /(<br[^>]*>[ \n\r\t]*){2,}/gi,
   replaceFontsRe: /<(\/?)font[^>]*>/gi,
@@ -16,8 +16,8 @@ var regexps = {
 };
 
 var dbg;
-exports.debug = function (debug) {
-  dbg = (debug) ? console.log : function () {};
+exports.debug = function(debug) {
+  dbg = (debug) ? console.log : function() {};
 };
 
 var cleanRules = [];
@@ -32,13 +32,13 @@ module.exports.setCleanRules = function(rules) {
  *
  * @return void
  **/
-var prepDocument = module.exports.prepDocument = function (document) {
+var prepDocument = module.exports.prepDocument = function(document) {
   var frames = document.getElementsByTagName('frame');
   if (frames.length > 0) {
     var bestFrame = null;
     var bestFrameSize = 0;
 
-    Array.prototype.slice.call(frames, 0).forEach(function (frame) {
+    Array.prototype.slice.call(frames, 0).forEach(function(frame) {
       var frameSize = frame.offsetWidth + frame.offsetHeight;
       var canAccessFrame = false;
       try {
@@ -65,20 +65,20 @@ var prepDocument = module.exports.prepDocument = function (document) {
     }
   }
 
-  // remove all scripts that are not readability
+  // remove all scripts
   var scripts = document.getElementsByTagName('script');
   for (var i = 0; i < scripts.length; ++i) {
     scripts[i].parentNode.removeChild(scripts[i]);
   }
   // remove all stylesheets
-  for (var k = 0; k < document.styleSheets.length; k++) {
-    document.styleSheets[k].disabled = true;
-  }
+  // for (var k = 0; k < document.styleSheets.length; k++) {
+  //   document.styleSheets[k].disabled = true;
+  // }
 
   // turn all double br's into p's
   // note, this is pretty costly as far as processing goes. Maybe optimize later.
-  document.body.innerHTML = document.body.innerHTML.replace(regexps.replaceBrsRe, '</p><p>').replace(regexps.replaceFontsRe, '<$1span>')
-}
+  document.body.innerHTML = document.body.innerHTML.replace(regexps.replaceBrsRe, '</p><p>').replace(regexps.replaceFontsRe, '<$1span>');
+};
 
 /***
  * grabArticle - Using a variety of metrics (content score, classname, element types), find the content that is
@@ -86,7 +86,7 @@ var prepDocument = module.exports.prepDocument = function (document) {
  *
  * @return Element
  **/
-var grabArticle = module.exports.grabArticle = function (document, preserveUnlikelyCandidates) {
+var grabArticle = module.exports.grabArticle = function(document, preserveUnlikelyCandidates) {
   /**
    * First, node prepping. Trash nodes that look cruddy (like ones with the class name "comment", etc), and turn divs
    * into P tags where they have been used inappropriately (as in, where they contain no other block level elements.)
@@ -117,7 +117,7 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
         node.parentNode.replaceChild(newNode, node);
       } else {
         // EXPERIMENTAL
-        node.childNodes._toArray().forEach(function (childNode) {
+        node.childNodes._toArray().forEach(function(childNode) {
           if (childNode.nodeType == 3 /*TEXT_NODE*/ ) {
             // use span instead of p. Need more tests.
             dbg("replacing text node with a span tag with the same content.");
@@ -166,7 +166,6 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
     ++contentScore;
 
     // Add points for any commas within this paragraph */
-    // support Chinese commas.
     contentScore += innerText.replace('，', ',').split(',').length;
 
     // For every 100 characters in this paragraph, add another point. Up to 3 points. */
@@ -183,7 +182,7 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
    * and find the one with the highest score.
    **/
   var topCandidate = null;
-  candidates.forEach(function (candidate) {
+  candidates.forEach(function(candidate) {
     /**
      * Scale the final candidates score based on link density. Good content should have a
      * relatively small link density (5% or less) and be mostly unaffected by this operation.
@@ -199,12 +198,14 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
    * If we still have no top candidate, just use the body as a last resort.
    * We also have to copy the body node so it is something we can modify.
    **/
-  if (topCandidate === null || topCandidate.tagName === "BODY") {
+  if (topCandidate === null || topCandidate.tagName === 'BODY') {
     // With no top candidate, bail out if no body tag exists as last resort.
-    if (!document.body) return new Error("No body tag was found.");
-    topCandidate = document.createElement("DIV");
+    if (!document.body) {
+      return new Error('No body tag was found.');
+    }
+    topCandidate = document.createElement('DIV');
     topCandidate.innerHTML = document.body.innerHTML;
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
     document.body.appendChild(topCandidate);
     initializeNode(topCandidate);
   }
@@ -214,16 +215,16 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
    * Now that we have the top candidate, look through its siblings for content that might also be related.
    * Things like preambles, content split by ads that we removed, etc.
    **/
-  var articleContent = document.createElement("DIV");
-  articleContent.id = "readability-content";
+  var articleContent = document.createElement('DIV');
+  articleContent.id = 'readability-content';
   var siblingScoreThreshold = Math.max(10, topCandidate.readability.contentScore * 0.2);
   var siblingNodes = topCandidate.parentNode.childNodes;
   for (var i = 0, il = siblingNodes.length; i < il; i++) {
     var siblingNode = siblingNodes[i];
     var append = false;
 
-    dbg("Looking at sibling node: " + siblingNode + " (" + siblingNode.className + ":" + siblingNode.id + ")" + ((typeof siblingNode.readability != 'undefined') ? (" with score " + siblingNode.readability.contentScore) : ''));
-    dbg("Sibling has score " + (siblingNode.readability ? siblingNode.readability.contentScore : 'Unknown'));
+    dbg('Looking at sibling node: ' + siblingNode + ' (' + siblingNode.className + ':' + siblingNode.id + ')' + ((typeof siblingNode.readability != 'undefined') ? (' with score ' + siblingNode.readability.contentScore) : ''));
+    dbg('Sibling has score ' + (siblingNode.readability ? siblingNode.readability.contentScore : 'Unknown'));
 
     if (siblingNode === topCandidate) {
       append = true;
@@ -233,20 +234,20 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
       append = true;
     }
 
-    if (siblingNode.nodeName == "P") {
+    if (siblingNode.nodeName == 'P') {
       var linkDensity = getLinkDensity(siblingNode);
       var nodeContent = getInnerText(siblingNode);
       var nodeLength = nodeContent.length;
 
       if (nodeLength > 80 && linkDensity < 0.25) {
         append = true;
-      } else if (nodeLength < 80 && linkDensity == 0 && nodeContent.search(/\.( |$)/) !== -1) {
+      } else if (nodeLength < 80 && linkDensity === 0 && nodeContent.search(/\.( |$)/) !== -1) {
         append = true;
       }
     }
 
     if (append) {
-      dbg("Appending node: " + siblingNode)
+      dbg("Appending node: " + siblingNode);
 
       /* Append sibling and subtract from our list because it removes the node when you append to another node */
       articleContent.appendChild(siblingNode);
@@ -269,7 +270,7 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
  * @param Element
  * @return void
  **/
-function cleanStyles (e) {
+function cleanStyles(e) {
   if (!e) return;
 
 
@@ -296,7 +297,7 @@ function cleanStyles (e) {
  * @param Element
  * @return void
  **/
-function killBreaks (e) {
+function killBreaks(e) {
   e.innerHTML = e.innerHTML.replace(regexps.killBreaksRe, '<br />');
 }
 
@@ -308,7 +309,7 @@ function killBreaks (e) {
  * @param Element
  * @return string
  **/
-getInnerText = exports.getInnerText = function (e, normalizeSpaces) {
+getInnerText = exports.getInnerText = function(e, normalizeSpaces) {
   var textContent = "";
 
   normalizeSpaces = (typeof normalizeSpaces == 'undefined') ? true : normalizeSpaces;
@@ -326,7 +327,7 @@ getInnerText = exports.getInnerText = function (e, normalizeSpaces) {
  * @param string - what to split on. Default is ","
  * @return number (integer)
  **/
-function getCharCount (e, s) {
+function getCharCount(e, s) {
   s = s || ",";
   return getInnerText(e).split(s).length;
 }
@@ -334,11 +335,11 @@ function getCharCount (e, s) {
 /**
  * Get the density of links as a percentage of the content
  * This is the amount of text that is inside a link divided by the total text in the node.
- * 
+ *
  * @param Element
  * @return number (float)
  **/
-function getLinkDensity (e) {
+function getLinkDensity(e) {
   var links = e.getElementsByTagName("a");
 
   var textLength = getInnerText(e).length;
@@ -346,31 +347,31 @@ function getLinkDensity (e) {
   for (var i = 0, il = links.length; i < il; i++) {
     var href = links[i].getAttribute('href');
     // hack for <h2><a href="#menu"></a></h2> / <h2><a></a></h2>
-    if(!href || (href.length > 0 && href[0] === '#')) continue;
+    if (!href || (href.length > 0 && href[0] === '#')) continue;
     linkLength += getInnerText(links[i]).length;
   }
   return linkLength / textLength;
 }
 
 /**
- * Get an elements class/id weight. Uses regular expressions to tell if this 
+ * Get an elements class/id weight. Uses regular expressions to tell if this
  * element looks good or bad.
  *
  * @param Element
  * @return number (Integer)
  **/
-function getClassWeight (e) {
+function getClassWeight(e) {
   var weight = 0;
 
   /* Look for a special classname */
-  if (e.className != "") {
+  if (e.className !== '') {
     if (e.className.search(regexps.negativeRe) !== -1) weight -= 25;
 
     if (e.className.search(regexps.positiveRe) !== -1) weight += 25;
   }
 
   /* Look for a special ID */
-  if (typeof (e.id) == 'string' && e.id != "") {
+  if (typeof(e.id) == 'string' && e.id != "") {
     if (e.id.search(regexps.negativeRe) !== -1) weight -= 25;
 
     if (e.id.search(regexps.positiveRe) !== -1) weight += 25;
@@ -387,7 +388,7 @@ function getClassWeight (e) {
  * @param string tag to clean
  * @return void
  **/
-function clean (e, tag) {
+function clean(e, tag) {
   var targetList = e.getElementsByTagName(tag);
   var isEmbed = (tag == 'object' || tag == 'embed');
 
@@ -396,21 +397,21 @@ function clean (e, tag) {
   for (var y = targetList.length - 1; y >= 0; y--) {
     //------- user clean handler -----------------
     var validRule = false;
-    for(var i = 0; i < cleanRules.length; i++) {
-      if(cleanRules[i](targetList[y], tag) === true) {
+    for (var i = 0; i < cleanRules.length; i++) {
+      if (cleanRules[i](targetList[y], tag) === true) {
         validRule = true;
         break;
       }
     }
 
-    if(validRule) {
+    if (validRule) {
       continue;
     }
     //------- end user clean handler -----------------
 
     /* Allow youtube and vimeo videos through as people usually want to see those. */
     if (isEmbed) {
-      if(targetList[y].innerHTML.search(regexps.videoRe) !== -1) {
+      if (targetList[y].innerHTML.search(regexps.videoRe) !== -1) {
         continue;
       }
     }
@@ -492,11 +493,12 @@ function cleanConditionally(e, tag) {
 /**
  * Converts relative urls to absolute for images and links
  **/
-function fixLinks (e) {
+function fixLinks(e) {
   if (!e.ownerDocument.originalURL) {
     return;
   }
-  function fixLink(link){
+
+  function fixLink(link) {
     var fixed = url.resolve(e.ownerDocument.originalURL, link);
     return fixed;
   }
@@ -505,7 +507,7 @@ function fixLinks (e) {
   var imgs = e.getElementsByTagName('img');
   for (i = imgs.length - 1; i >= 0; --i) {
     var src = imgs[i].getAttribute('src');
-    if(src) {
+    if (src) {
       imgs[i].setAttribute('src', fixLink(src));
     }
   }
@@ -513,7 +515,7 @@ function fixLinks (e) {
   var as = e.getElementsByTagName('a');
   for (i = as.length - 1; i >= 0; --i) {
     var href = as[i].getAttribute('href');
-    if(href) {
+    if (href) {
       as[i].setAttribute('href', fixLink(href));
     }
   }
@@ -525,7 +527,7 @@ function fixLinks (e) {
  * @param Element
  * @return void
  **/
-function cleanHeaders (e) {
+function cleanHeaders(e) {
   for (var headerIndex = 1; headerIndex < 7; headerIndex++) {
     var headers = e.getElementsByTagName('h' + headerIndex);
     for (var i = headers.length - 1; i >= 0; --i) {
@@ -543,7 +545,7 @@ function cleanHeaders (e) {
  * @return void
  **/
 
-function cleanSingleHeader (e) {
+function cleanSingleHeader(e) {
   for (var headerIndex = 1; headerIndex < 7; headerIndex++) {
     var headers = e.getElementsByTagName('h' + headerIndex);
     for (var i = headers.length - 1; i >= 0; --i) {
@@ -555,7 +557,7 @@ function cleanSingleHeader (e) {
 
 }
 
-function prepArticle (articleContent) {
+function prepArticle(articleContent) {
   cleanStyles(articleContent);
   killBreaks(articleContent);
 
@@ -608,42 +610,56 @@ function prepArticle (articleContent) {
  * @param Element
  * @return void
  **/
-function initializeNode (node) {
-  node.readability = {
-    "contentScore": 0
-  };
+function initializeNode(node) {
+  node.readability = { contentScore: 0 };
 
   switch (node.tagName) {
-  case 'DIV':
+    case 'ARTICLE':
+      node.readability.contentScore += 10;
+      break;
+
+    case 'SECTION':
+      node.readability.contentScore += 8;
+      break;
+
+    case 'DIV':
+      node.readability.contentScore += 5;
+      break;
+
+    case 'PRE':
+    case 'TD':
+    case 'BLOCKQUOTE':
+      node.readability.contentScore += 3;
+      break;
+
+    case 'ADDRESS':
+    case 'OL':
+    case 'UL':
+    case 'DL':
+    case 'DD':
+    case 'DT':
+    case 'LI':
+    case 'FORM':
+      node.readability.contentScore -= 3;
+      break;
+
+    case 'H1':
+    case 'H2':
+    case 'H3':
+    case 'H4':
+    case 'H5':
+    case 'H6':
+    case 'TH':
+      node.readability.contentScore -= 5;
+      break;
+  }
+  
+  if (node.attributes.itemscope) {
     node.readability.contentScore += 5;
-    break;
-
-  case 'PRE':
-  case 'TD':
-  case 'BLOCKQUOTE':
-    node.readability.contentScore += 3;
-    break;
-
-  case 'ADDRESS':
-  case 'OL':
-  case 'UL':
-  case 'DL':
-  case 'DD':
-  case 'DT':
-  case 'LI':
-  case 'FORM':
-    node.readability.contentScore -= 3;
-    break;
-
-  case 'H1':
-  case 'H2':
-  case 'H3':
-  case 'H4':
-  case 'H5':
-  case 'H6':
-  case 'TH':
-    node.readability.contentScore -= 5;
-    break;
+    if (node.attributes.itemtype &&
+        /blog|post|article/i.test(node.getAttribute('itemtype'))) {
+      node.readability.contentScore += 30;
+    }
   }
 
   node.readability.contentScore += getClassWeight(node);
