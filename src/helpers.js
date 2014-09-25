@@ -65,16 +65,6 @@ var prepDocument = module.exports.prepDocument = function(document) {
     }
   }
 
-  // remove all scripts
-  var scripts = document.getElementsByTagName('script');
-  for (var i = 0; i < scripts.length; ++i) {
-    scripts[i].parentNode.removeChild(scripts[i]);
-  }
-  // remove all stylesheets
-  // for (var k = 0; k < document.styleSheets.length; k++) {
-  //   document.styleSheets[k].disabled = true;
-  // }
-
   // turn all double br's into p's
   // note, this is pretty costly as far as processing goes. Maybe optimize later.
   document.body.innerHTML = document.body.innerHTML.replace(regexps.replaceBrsRe, '</p><p>').replace(regexps.replaceFontsRe, '<$1span>');
@@ -109,7 +99,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
     }
 
     // Turn all divs that don't have children block level elements into p's
-    if (!continueFlag && node.tagName === "DIV") {
+    if (!continueFlag && node.tagName === 'DIV') {
       if (node.innerHTML.search(regexps.divToPElementsRe) === -1) {
         dbg("Altering div to p");
         var newNode = document.createElement('p');
