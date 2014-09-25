@@ -32,17 +32,17 @@ Example
     var read = require('node-readability');
 
     read('http://howtonode.org/really-simple-file-uploads', function(err, article, meta) {
-      // The main body of the page.
+      // Main Article
       console.log(article.content);
-      // The title of the page.
+      // Title
       console.log(article.title);
 
-      // The raw HTML code of the page
+      // HTML Source Code
       console.log(article.html);
-      // The document object of the page
+      // DOM
       console.log(article.document);
-      
-      // The response object from request lib
+
+      // Response Object from Request Lib
       console.log(meta);
     });
 
