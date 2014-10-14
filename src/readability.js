@@ -160,8 +160,8 @@ function read(html, options, callback) {
   if (html.indexOf('<') === -1) {
 
     // try to enable CORS on the browser
-    if (window) {
-      if (options.withEncoding === undefined) {
+    if (typeof window !== 'undefined') {
+      if (typeof options.withEncoding === 'undefined') {
         options.withEncoding = false;
       }
     }
