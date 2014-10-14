@@ -158,6 +158,14 @@ function read(html, options, callback) {
   options.encoding = null;
 
   if (html.indexOf('<') === -1) {
+
+    // try to enable CORS on the browser
+    if (typeof window !== 'undefined') {
+      if (typeof options.withEncoding === 'undefined') {
+        options.withEncoding = false;
+      }
+    }
+
     request(html, options, function(err, res, buffer) {
       if (err) {
         return callback(err);
@@ -190,6 +198,8 @@ function read(html, options, callback) {
     if (!body) return callback(new Error('Empty story body returned from URL'));
     jsdom.env({
       html: body,
+      // jank around jsdom browserify bug
+      url: (meta ? meta.request.uri.href : '/'),
       done: function(errors, window) {
         if (meta) {
           window.document.originalURL = meta.request.uri.href;
