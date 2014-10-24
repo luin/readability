@@ -19,7 +19,7 @@
     }
   ],
   "dependencies": {
-    "jsdom": "0.11.1",
+    "jsdom": "^1.0.3",
     "request": "~2.40.0",
     "encoding": "~0.1.7"
   },
