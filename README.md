@@ -2,7 +2,7 @@
 
 Turn any web page into a clean view. This module is based on arc90's readability project.
 
-[![Build Status](https://travis-ci.org/luin/node-readability.png?branch=master)](https://travis-ci.org/luin/node-readability)
+[![Build Status](https://travis-ci.org/ybak/node-readability.svg)](https://travis-ci.org/ybak/node-readability)
 
 ## Features
 1. Optimized for more websites.
