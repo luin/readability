@@ -107,3 +107,7 @@ This code is under the Apache License 2.0.  http://www.apache.org/licenses/LICEN
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/luin/node-readability/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ybak/node-readability/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
