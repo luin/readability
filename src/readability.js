@@ -197,8 +197,14 @@ function read(html, options, callback) {
           window.document.originalURL = null;
         }
 
-        if (errors) return callback(errors);
-        if (!window.document.body) return callback(new Error('No body tag was found.'));
+        if (errors) {
+            window.close();
+            return callback(errors);
+        }
+        if (!window.document.body) {
+            window.close();
+            return callback(new Error('No body tag was found.'));
+        }
         // add meta information to callback
         callback(null, new Readability(window.document, options), meta);
       }
