@@ -2,7 +2,7 @@
 
 Turn any web page into a clean view. This module is based on arc90's readability project.
 
-[![Build Status](https://travis-ci.org/luin/node-readability.png?branch=master)](https://travis-ci.org/luin/node-readability)
+[![Build Status](https://travis-ci.org/ybak/node-readability.svg)](https://travis-ci.org/ybak/node-readability)
 
 ## Features
 1. Optimized for more websites.
@@ -98,12 +98,12 @@ This lib is using jsdom to parser HTML instead of cheerio because some data such
 
 ## Contributors
 
-https://github.com/luin/node-readability/graphs/contributors
+https://github.com/ybak/node-readability/graphs/contributors
 
 ## License
 
 This code is under the Apache License 2.0.  http://www.apache.org/licenses/LICENSE-2.0
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/luin/node-readability/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ybak/node-readability/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
