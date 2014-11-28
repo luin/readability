@@ -31,25 +31,25 @@ Where
 
 Example
 ```javascript
-    var read = require('node-readability');
+var read = require('node-readability');
 
-    read('http://howtonode.org/really-simple-file-uploads', function(err, article, meta) {
-      // Main Article
-      console.log(article.content);
-      // Title
-      console.log(article.title);
+read('http://howtonode.org/really-simple-file-uploads', function(err, article, meta) {
+  // Main Article
+  console.log(article.content);
+  // Title
+  console.log(article.title);
 
-      // HTML Source Code
-      console.log(article.html);
-      // DOM
-      console.log(article.document);
+  // HTML Source Code
+  console.log(article.html);
+  // DOM
+  console.log(article.document);
 
-      // Response Object from Request Lib
-      console.log(meta);
+  // Response Object from Request Lib
+  console.log(meta);
 
-      // Close article to clean up jsdom and prevent leaks
-      article.close();
-    });
+  // Close article to clean up jsdom and prevent leaks
+  article.close();
+});
 ```
 **NB** If the page has been marked with charset other than utf-8, it will be converted automatically. Charsets such as GBK, GB2312 is also supported.
 
@@ -66,16 +66,17 @@ If true rule is valid, otherwise no.
 options.cleanRulers = [callback(obj, tagName)]
 ```javascript
 read(url, {
-        cleanRulers : [
-          function(obj, tag) {
-            if(tag === 'object') {
-              if(obj.getAttribute('class') === 'BrightcoveExperience') {
-                return true;
-              }
-            }
-          }
-        ]
-      }, function(err, article, response) {});
+  cleanRulers: [
+    function(obj, tag) {
+      if(tag === 'object') {
+        if(obj.getAttribute('class') === 'BrightcoveExperience') {
+          return true;
+        }
+      }
+    }
+  ]}, function(err, article, response) {
+    //...
+  });
 ```
 
 - `preprocess` which should be a function to check or modify downloaded source before passing it to readability.
@@ -91,7 +92,6 @@ read(url, {
   }, function(err, article, response) {
     //...
   });
-
 ```
 
 
