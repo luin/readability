@@ -81,10 +81,10 @@ read(url, {
 
 - `preprocess` which should be a function to check or modify downloaded source before passing it to readability.
 
-options.preprocess = callback(source, response, content_type, callback);
+options.preprocess = callback(source, response, contentType, callback);
 ```javascript
 read(url, {
-  preprocess: function(source, response, content_type, callback) {
+  preprocess: function(source, response, contentType, callback) {
     if (source.length > maxBodySize) {
       return callback(new Error('too big'));
     }
