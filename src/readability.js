@@ -10,8 +10,9 @@ exports.debug = function(debug) {
 
 exports.debug(false);
 
-function Readability(document, options) {
-  this._document = document;
+function Readability(window, options) {
+  this._window = window;
+  this._document = window.document;
   this.iframeLoads = 0;
   // Cache the body HTML in case we need to re-use it later
   this.bodyCache = null;
@@ -37,6 +38,12 @@ function Readability(document, options) {
   this.__defineGetter__('document', function() {
     return this.getDocument(true);
   });
+}
+
+Readability.prototype.close = function() {
+  this._window && this._window.close();
+  this._window = null;
+  this._document = null;
 }
 
 Readability.prototype.getContent = function(notDeprecated) {
@@ -217,7 +224,7 @@ function read(html, options, callback) {
             return callback(new Error('No body tag was found.'));
         }
         // add meta information to callback
-        callback(null, new Readability(window.document, options), meta);
+        callback(null, new Readability(window, options), meta);
       }
     });
   }
