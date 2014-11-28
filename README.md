@@ -30,7 +30,7 @@ Where
   * **callback** is the callback to run - `callback(error, article, meta)`
 
 Example
-
+```javascript
     var read = require('node-readability');
 
     read('http://howtonode.org/really-simple-file-uploads', function(err, article, meta) {
@@ -46,8 +46,11 @@ Example
 
       // Response Object from Request Lib
       console.log(meta);
-    });
 
+      // Close article to clean up jsdom and prevent leaks
+      article.close();
+    });
+```
 **NB** If the page has been marked with charset other than utf-8, it will be converted automatically. Charsets such as GBK, GB2312 is also supported.
 
 ## Options
