@@ -55,10 +55,13 @@ Example
 node-readability will pass the options to [request](https://github.com/mikeal/request) directly.
 See request lib to view all available options.
 
-node-readability has additional option cleanRules which allow set your own validation rule for tags.
+node-readability has two additional options:
+
+- `cleanRulers` which allow set your own validation rule for tags.
+
 If true rule is valid, otherwise no.
-options.cleanRules = [callback(obj, tagName)]
-```
+options.cleanRulers = [callback(obj, tagName)]
+```javascript
 read(url, {
         cleanRulers : [
           function(obj, tag) {
@@ -71,6 +74,24 @@ read(url, {
         ]
       }, function(err, article, response) {});
 ```
+
+- `preprocess` which should be a function to check or modify downloaded source before passing it to readability.
+
+options.preprocess = callback(source, response, content_type, callback);
+```javascript
+read(url, {
+  preprocess: function(source, response, content_type, callback) {
+    if (source.length > maxBodySize) {
+      return callback(new Error('too big'));
+    }
+    callback(null, source);
+  }, function(err, article, response) {
+    //...
+  });
+
+```
+
+
 ## article object
 
 ### content
