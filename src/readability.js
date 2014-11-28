@@ -153,9 +153,11 @@ function read(html, options, callback) {
     options = {};
   }
 
-  var overrideEncoding = options.encoding;
+  var overrideEncoding = options.encoding,
+      preprocess = options.preprocess;
 
   options.encoding = null;
+  delete options.preprocess;
 
   if (html.indexOf('<') === -1) {
     request(html, options, function(err, res, buffer) {
@@ -175,7 +177,16 @@ function read(html, options, callback) {
         buffer = encodinglib.convert(buffer, "UTF-8", content_type.charset);
       }
 
-      jsdomParse(null, res, buffer.toString());
+      buffer = buffer.toString();
+
+      if (preprocess) {
+        preprocess(buffer, res, content_type, function(err, buffer) {
+          if (err) return callback(err);
+          jsdomParse(null, res, buffer);
+        });
+      } else {
+        jsdomParse(null, res, buffer);
+      }
     });
   } else {
     jsdomParse(null, null, html);
