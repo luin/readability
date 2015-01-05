@@ -223,8 +223,17 @@ function read(html, options, callback) {
             window.close();
             return callback(new Error('No body tag was found.'));
         }
-        // add meta information to callback
-        callback(null, new Readability(window, options), meta);
+        
+		try {
+		    var readability = new Readability(window, options);
+			
+			// add meta information to callback
+			callback(null, readability, meta);
+		} catch (ex) {
+			window.close();
+			return callback(ex);
+        
+		}
       }
     });
   }
