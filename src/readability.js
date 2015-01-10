@@ -149,7 +149,7 @@ function _parseContentType(str) {
   }
 
   return {
-    mimeType: (mimeType  ||  "").trim().toLowerCase(),
+    mimeType: (mimeType || "").trim().toLowerCase(),
     charset: (charset || "UTF-8").trim().toLowerCase() // defaults to UTF-8
   };
 }
@@ -178,7 +178,7 @@ function read(html, options, callback) {
         content_type.charset = _findHTMLCharset(buffer) || content_type.charset;
       }
 
-      content_type.charset = (overrideEncoding ||  content_type.charset ||  "utf-8").trim().toLowerCase();
+      content_type.charset = (overrideEncoding || content_type.charset || "utf-8").trim().toLowerCase();
 
       if (!content_type.charset.match(/^utf-?8$/i)) {
         buffer = encodinglib.convert(buffer, "UTF-8", content_type.charset);
@@ -216,24 +216,24 @@ function read(html, options, callback) {
         }
 
         if (errors) {
-            window.close();
-            return callback(errors);
+          window.close();
+          return callback(errors);
         }
         if (!window.document.body) {
-            window.close();
-            return callback(new Error('No body tag was found.'));
+          window.close();
+          return callback(new Error('No body tag was found.'));
         }
-        
-		try {
-		    var readability = new Readability(window, options);
-			
-			// add meta information to callback
-			callback(null, readability, meta);
-		} catch (ex) {
-			window.close();
-			return callback(ex);
-        
-		}
+
+        try {
+          var readability = new Readability(window, options);
+
+          // add meta information to callback
+          callback(null, readability, meta);
+        } catch (ex) {
+          window.close();
+          return callback(ex);
+
+        }
       }
     });
   }
