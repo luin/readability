@@ -1,10 +1,15 @@
-# node-readability
+# node-readability-cheerio
 
 node-readability的cheerio版。支持GBK、GB2312等编码的网页抓取和解析。Turn any web page into a clean view. This module is based on arc90's readability project.
+
+## contact me
+[csser.me](http://csser.me)
 
 ## Install
 
     npm install node-readability-cheerio
+
+# README.md from node-readability:
 
 ## Usage
 
@@ -24,7 +29,7 @@ Example
         console.log($('body').html());
     });
 
-More about '$': https://github.com/MatthewMueller/cheerio#selectors
+More about **'$'**: https://github.com/MatthewMueller/cheerio#selectors
 
 **NB** If the file has been marked with charset other than utf-8, it is converted automatically. Charsets such as GBK, GB2312 is also supported via [iconv](https://github.com/bnoordhuis/node-iconv).
 
