@@ -1,30 +1,33 @@
 {
-    "name": "node-readability-cheerio",
-    "version": "0.0.2",
-    "author": "indooorsman",
-    "description": "node-readability的cheerio版。支持GBK、GB2312等编码的网页抓取和解析。Turning any web page into a clean view.",
-    "homepage": "https://github.com/indooorsman/node-readability-cheerio",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:indooorsman/node-readability-cheerio.git"
-    },
-    "main": "./src/readability",
-    "licenses": [
-        {
-            "type": "Apache License 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0"
-        }
-    ],
-    "dependencies": {
-        "fetch": "*",
-        "cheerio": "*"
-    },
-    "engines": [
-        "node >=0.6.0"
-    ],
-    "keywords": [
-        "readability",
-        "GBK",
-        "GB2312"
-    ]
+  "name": "node-readability-cheerio",
+  "version": "1.0.0",
+  "author": "indooorsman",
+  "description": "node-readability的cheerio版。支持GBK、GB2312等编码的网页抓取和解析。Turning any web page into a clean view.",
+  "homepage": "https://github.com/indooorsman/node-readability-cheerio",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:indooorsman/node-readability-cheerio.git"
+  },
+  "main": "./src/readability",
+  "licenses": [
+    {
+      "type": "Apache License 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "dependencies": {
+    "fetch": "*",
+    "cheerio": "*"
+  },
+  "engines": [
+    "node >=0.6.0"
+  ],
+  "keywords": [
+    "readability",
+    "GBK",
+    "GB2312",
+    "web",
+    "crawler",
+    "cheerio"
+  ]
 }
