@@ -2,7 +2,7 @@ var jsdom = require('jsdom');
 var request = require('request');
 var helpers = require('./helpers');
 var encodinglib = require("encoding");
-
+var urllib = require('url');
 
 exports.debug = function(debug) {
   helpers.debug(debug);
@@ -41,10 +41,12 @@ function Readability(window, options) {
 }
 
 Readability.prototype.close = function() {
-  this._window && this._window.close();
+  if (this._window) {
+    this._window.close();
+  }
   this._window = null;
   this._document = null;
-}
+};
 
 Readability.prototype.getContent = function(notDeprecated) {
   if (!notDeprecated) {
@@ -166,7 +168,10 @@ function read(html, options, callback) {
   options.encoding = null;
   delete options.preprocess;
 
-  if (html.indexOf('<') === -1) {
+  var parsedURL = urllib.parse(html);
+  if (['http:', 'https:', 'unix:', 'ftp:', 'sftp:'].indexOf(parsedURL.protocol) === -1) {
+    jsdomParse(null, null, html);
+  } else {
     request(html, options, function(err, res, buffer) {
       if (err) {
         return callback(err);
@@ -195,8 +200,6 @@ function read(html, options, callback) {
         jsdomParse(null, res, buffer);
       }
     });
-  } else {
-    jsdomParse(null, null, html);
   }
 
   function jsdomParse(error, meta, body) {
