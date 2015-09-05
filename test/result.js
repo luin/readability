@@ -8,7 +8,7 @@ describe('result', function() {
         var dom = read.document;
         var html = '<html><head><meta charset="utf-8"><title>' + dom.title +
           '</title></head><body><h1>' + read.title + '</h1>' + read.content + '</body></html>';
-        html.should.include('<title>Dispatch From Angola: Faith-Based Slavery in a Louisiana Prison - COLORLINES</title>');
+        html.should.include('<title>Dispatch From Angola: Faith-Based Slavery in a Louisiana Prison');
         read.close.should.be.a.Function
         read.close();
         done();

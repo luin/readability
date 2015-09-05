@@ -1,6 +1,6 @@
 {
   "name": "node-readability",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "author": "Zihua Li",
   "description": "Turning any web page into a clean view.",
   "homepage": "https://github.com/luin/node-readability",
@@ -19,13 +19,13 @@
     }
   ],
   "dependencies": {
-    "jsdom": "^1.0.3",
-    "request": "~2.40.0",
-    "encoding": "~0.1.7"
+    "encoding": "~0.1.7",
+    "jsdom": "^6.3.0",
+    "request": "~2.40.0"
   },
-  "engines": [
-    "node >=0.8.0"
-  ],
+  "engines": {
+    "iojs": ">= 2.0.0"
+  },
   "keywords": [
     "readability"
   ],
