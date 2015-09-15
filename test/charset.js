@@ -9,7 +9,6 @@ describe('charset', function () {
     it('should convert the page to utf-8', function (done) {
       fs.readFile(path.join(__dirname, 'test.html'), { encoding: 'utf-8' }, function (err, html) {
         read(html, function (err, read) {
-          console.log(err, read);
           read.content.should.include('谷歌');
           read.title.should.include('谷歌');
           done();
