@@ -107,7 +107,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
         node.parentNode.replaceChild(newNode, node);
       } else {
         // EXPERIMENTAL
-        node.childNodes._toArray().forEach(function(childNode) {
+        Array.from(node.childNodes).forEach(function(childNode) {
           if (childNode.nodeType == 3 /*TEXT_NODE*/ ) {
             // use span instead of p. Need more tests.
             dbg("replacing text node with a span tag with the same content.");
