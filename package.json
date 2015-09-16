@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git://github.com/luin/node-readability.git"
   },
+  "bin": {
+    "readability": "./src/cli.js"
+  },
   "scripts": {
     "test": "mocha -R spec"
   },
@@ -21,6 +24,7 @@
   "dependencies": {
     "encoding": "~0.1.7",
     "jsdom": "^6.3.0",
+    "minimist": "^1.2.0",
     "request": "~2.40.0"
   },
   "engines": {
