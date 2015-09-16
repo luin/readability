@@ -30,7 +30,7 @@ var callback = function(err, article, meta){
 if(typeof argv.url === 'string'){
   read(argv.url, callback);
 } else {
-  var html;
+  var html = "";
   process.stdin.on("data", function(chunk){
     html += chunk;
   });
