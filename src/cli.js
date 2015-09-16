@@ -23,6 +23,7 @@ var callback = function(err, article, meta){
   if(!article.content){
     process.exit(-2);
   }
+  process.stdout.write("<h1>" + article.title + "</h1>");
   process.stdout.write(article.content);
 }
 
