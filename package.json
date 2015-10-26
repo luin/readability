@@ -28,7 +28,7 @@
     "request": "~2.40.0"
   },
   "engines": {
-    "iojs": ">= 2.0.0"
+    "node": ">= 2"
   },
   "keywords": [
     "readability"
