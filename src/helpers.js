@@ -12,7 +12,7 @@ var regexps = {
   trimRe: /^\s+|\s+$/g,
   normalizeRe: /\s{2,}/g,
   killBreaksRe: /(<br\s*\/?>(\s|&nbsp;?)*){1,}/g,
-  videoRe: /http:\/\/(www\.)?(youtube|vimeo|youku|tudou|56|yinyuetai)\.com/i
+  videoRe: /\/\/(www\.)?(dailymotion|youtube|youtube-nocookie|player\.vimeo)\.com/i
 };
 
 var dbg;
@@ -400,10 +400,19 @@ function clean(e, tag) {
     //------- end user clean handler -----------------
 
     /* Allow youtube and vimeo videos through as people usually want to see those. */
+    /* Allow youtube and vimeo videos through as people usually want to see those. */
     if (isEmbed) {
-      if (targetList[y].innerHTML.search(regexps.videoRe) !== -1) {
-        continue;
-      }
+      var attributeValues = [].map.call(targetList[y].attributes, function (attr) {
+        return attr.value;
+      }).join("|");
+
+      // First, check the elements attributes to see if any of them contain youtube or vimeo
+      if (regexps.videoRe.test(attributeValues))
+        return;
+
+      // Then check the elements inside this element for the same.
+      if (regexps.videoRe.test(targetList[y].innerHTML))
+        return;
     }
 
     targetList[y].parentNode.removeChild(targetList[y]);
