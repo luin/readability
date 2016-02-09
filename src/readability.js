@@ -159,7 +159,12 @@ function _parseContentType(str) {
 function read(html, options, callback) {
   if (typeof options === 'function') {
     callback = options;
-    options = {};
+    //Added Custom header in default option of Request Module
+    options = {
+      headers: {
+        'User-Agent': 'request'
+      }
+    };
   }
 
   var overrideEncoding = options.encoding,
