@@ -10,19 +10,20 @@ var regexps = {
   replaceBrsRe: /(<br[^>]*>[ \n\r\t]*){2,}/gi,
   replaceFontsRe: /<(\/?)font[^>]*>/gi,
   trimRe: /^\s+|\s+$/g,
+  byline: /byline|author|dateline|writtenby/i,
   normalizeRe: /\s{2,}/g,
   killBreaksRe: /(<br\s*\/?>(\s|&nbsp;?)*){1,}/g,
   videoRe: /\/\/(www\.)?(dailymotion|youtube|youtube-nocookie|player\.vimeo)\.com/i
 };
 
 var dbg;
-exports.debug = function(debug) {
-  dbg = (debug) ? console.log : function() {};
+exports.debug = function (debug) {
+  dbg = (debug) ? console.log : function () {};
 };
 
 var cleanRules = [];
 
-module.exports.setCleanRules = function(rules) {
+module.exports.setCleanRules = function (rules) {
   cleanRules = rules;
 };
 
@@ -32,13 +33,13 @@ module.exports.setCleanRules = function(rules) {
  *
  * @return void
  **/
-var prepDocument = module.exports.prepDocument = function(document) {
+var prepDocument = module.exports.prepDocument = function (document) {
   var frames = document.getElementsByTagName('frame');
   if (frames.length > 0) {
     var bestFrame = null;
     var bestFrameSize = 0;
 
-    Array.prototype.slice.call(frames, 0).forEach(function(frame) {
+    Array.prototype.slice.call(frames, 0).forEach(function (frame) {
       var frameSize = frame.offsetWidth + frame.offsetHeight;
       var canAccessFrame = false;
       try {
@@ -69,6 +70,38 @@ var prepDocument = module.exports.prepDocument = function(document) {
   // note, this is pretty costly as far as processing goes. Maybe optimize later.
   // document.body.innerHTML = document.body.innerHTML.replace(regexps.replaceBrsRe, '</p><p>').replace(regexps.replaceFontsRe, '<$1span>');
 };
+/***
+ * grabAuthor - Looping over all node to find the regex byLine.
+ *
+ * @return string
+ **/
+var grabAuthor = module.exports.grabAuthor = function (document) {
+  var nodes = document.getElementsByTagName('*');
+  for (var i = 0; i < nodes.length; ++i) {
+    var node = nodes[i];
+    var unlikelyMatchString = node.className + node.id;
+    if (node.getAttribute !== undefined) {
+      var rel = node.getAttribute("rel");
+    }
+    if ((rel === "author" || regexps.byline.test(unlikelyMatchString)) && isValidByline(node.textContent)) {
+      for (var j = 0; j < node.childNodes.length; j++) {
+        if (node.childNodes[j].tagName && node.childNodes[j].tagName.toLowerCase() == 'time') {
+          node.childNodes[j].parentNode.removeChild(node.childNodes[j]);
+        }
+      }
+      return node.textContent.trim().replace(/[^A-Za-z\d\s]/g, '').trim().replace(/\s+/g, ' ').trim().replace(/^(by)/i, "").trim();
+    }
+  }
+  return "";
+}
+
+function isValidByline(byline) {
+  if (typeof byline == 'string' || byline instanceof String) {
+    byline = byline.trim();
+    return (byline.length > 0) && (byline.length < 100);
+  }
+  return false;
+}
 
 /***
  * grabArticle - Using a variety of metrics (content score, classname, element types), find the content that is
@@ -76,7 +109,7 @@ var prepDocument = module.exports.prepDocument = function(document) {
  *
  * @return Element
  **/
-var grabArticle = module.exports.grabArticle = function(document, preserveUnlikelyCandidates) {
+var grabArticle = module.exports.grabArticle = function (document, preserveUnlikelyCandidates) {
   /**
    * First, node prepping. Trash nodes that look cruddy (like ones with the class name "comment", etc), and turn divs
    * into P tags where they have been used inappropriately (as in, where they contain no other block level elements.)
@@ -107,7 +140,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
         node.parentNode.replaceChild(newNode, node);
       } else {
         // EXPERIMENTAL
-        Array.prototype.slice.call(node.childNodes).forEach(function(childNode) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (childNode) {
           if (childNode.nodeType == 3 /*TEXT_NODE*/ ) {
             // use span instead of p. Need more tests.
             dbg("replacing text node with a span tag with the same content.");
@@ -172,7 +205,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
    * and find the one with the highest score.
    **/
   var topCandidate = null;
-  candidates.forEach(function(candidate) {
+  candidates.forEach(function (candidate) {
     /**
      * Scale the final candidates score based on link density. Good content should have a
      * relatively small link density (5% or less) and be mostly unaffected by this operation.
@@ -299,7 +332,7 @@ function killBreaks(e) {
  * @param Element
  * @return string
  **/
-getInnerText = exports.getInnerText = function(e, normalizeSpaces) {
+getInnerText = exports.getInnerText = function (e, normalizeSpaces) {
   var textContent = "";
 
   normalizeSpaces = (typeof normalizeSpaces == 'undefined') ? true : normalizeSpaces;
@@ -361,7 +394,7 @@ function getClassWeight(e) {
   }
 
   /* Look for a special ID */
-  if (typeof(e.id) == 'string' && e.id != "") {
+  if (typeof (e.id) == 'string' && e.id != "") {
     if (e.id.search(regexps.negativeRe) !== -1) weight -= 25;
 
     if (e.id.search(regexps.positiveRe) !== -1) weight += 25;
@@ -612,53 +645,55 @@ function prepArticle(articleContent) {
  * @return void
  **/
 function initializeNode(node) {
-  node.readability = { contentScore: 0 };
+  node.readability = {
+    contentScore: 0
+  };
 
   switch (node.tagName) {
-    case 'ARTICLE':
-      node.readability.contentScore += 10;
-      break;
+  case 'ARTICLE':
+    node.readability.contentScore += 10;
+    break;
 
-    case 'SECTION':
-      node.readability.contentScore += 8;
-      break;
+  case 'SECTION':
+    node.readability.contentScore += 8;
+    break;
 
-    case 'DIV':
-      node.readability.contentScore += 5;
-      break;
+  case 'DIV':
+    node.readability.contentScore += 5;
+    break;
 
-    case 'PRE':
-    case 'TD':
-    case 'BLOCKQUOTE':
-      node.readability.contentScore += 3;
-      break;
+  case 'PRE':
+  case 'TD':
+  case 'BLOCKQUOTE':
+    node.readability.contentScore += 3;
+    break;
 
-    case 'ADDRESS':
-    case 'OL':
-    case 'UL':
-    case 'DL':
-    case 'DD':
-    case 'DT':
-    case 'LI':
-    case 'FORM':
-      node.readability.contentScore -= 3;
-      break;
+  case 'ADDRESS':
+  case 'OL':
+  case 'UL':
+  case 'DL':
+  case 'DD':
+  case 'DT':
+  case 'LI':
+  case 'FORM':
+    node.readability.contentScore -= 3;
+    break;
 
-    case 'H1':
-    case 'H2':
-    case 'H3':
-    case 'H4':
-    case 'H5':
-    case 'H6':
-    case 'TH':
-      node.readability.contentScore -= 5;
-      break;
+  case 'H1':
+  case 'H2':
+  case 'H3':
+  case 'H4':
+  case 'H5':
+  case 'H6':
+  case 'TH':
+    node.readability.contentScore -= 5;
+    break;
   }
-  
+
   if (node.attributes.itemscope) {
     node.readability.contentScore += 5;
     if (node.attributes.itemtype &&
-        /blog|post|article/i.test(node.getAttribute('itemtype'))) {
+      /blog|post|article/i.test(node.getAttribute('itemtype'))) {
       node.readability.contentScore += 30;
     }
   }

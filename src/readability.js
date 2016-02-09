@@ -4,7 +4,7 @@ var helpers = require('./helpers');
 var encodinglib = require("encoding");
 var urllib = require('url');
 
-exports.debug = function(debug) {
+exports.debug = function (debug) {
   helpers.debug(debug);
 };
 
@@ -26,21 +26,24 @@ function Readability(window, options) {
     'body': this._document.body.innerHTML
   };
 
-  this.__defineGetter__('content', function() {
+  this.__defineGetter__('content', function () {
     return this.getContent(true);
   });
-  this.__defineGetter__('title', function() {
+  this.__defineGetter__('title', function () {
     return this.getTitle(true);
   });
-  this.__defineGetter__('html', function() {
+  this.__defineGetter__('html', function () {
     return this.getHTML(true);
   });
-  this.__defineGetter__('document', function() {
+  this.__defineGetter__('document', function () {
     return this.getDocument(true);
+  });
+  this.__defineGetter__('author', function () {
+    return this.getAuthor(true);
   });
 }
 
-Readability.prototype.close = function() {
+Readability.prototype.close = function () {
   if (this._window) {
     this._window.close();
   }
@@ -48,7 +51,23 @@ Readability.prototype.close = function() {
   this._document = null;
 };
 
-Readability.prototype.getContent = function(notDeprecated) {
+Readability.prototype.getAuthor = function (notDeprecated) {
+  if (!notDeprecated) {
+    console.warn('The method `getAuthor()` is deprecated, using `content` property instead.');
+  }
+  if (typeof this.cache['article-author'] !== 'undefined') {
+    return this.cache['article-author'];
+  }
+
+  var author = helpers.grabAuthor(this._document);
+  if (author === '') {
+    return this.cache['article-author'] = false;
+  } else {
+    return this.cache['article-author'] = author;
+  }
+};
+
+Readability.prototype.getContent = function (notDeprecated) {
   if (!notDeprecated) {
     console.warn('The method `getContent()` is deprecated, using `content` property instead.');
   }
@@ -68,7 +87,7 @@ Readability.prototype.getContent = function(notDeprecated) {
   return this.cache['article-content'] = articleContent.innerHTML;
 };
 
-Readability.prototype.getTitle = function(notDeprecated) {
+Readability.prototype.getTitle = function (notDeprecated) {
   if (!notDeprecated) {
     console.warn('The method `getTitle()` is deprecated, using `title` property instead.');
   }
@@ -81,7 +100,7 @@ Readability.prototype.getTitle = function(notDeprecated) {
   var commonSeparatingCharacters = [' | ', ' _ ', ' - ', '«', '»', '—'];
 
   var self = this;
-  commonSeparatingCharacters.forEach(function(char) {
+  commonSeparatingCharacters.forEach(function (char) {
     var tmpArray = title.split(char);
     if (tmpArray.length > 1) {
       if (betterTitle) return self.cache['article-title'] = title;
@@ -96,14 +115,14 @@ Readability.prototype.getTitle = function(notDeprecated) {
   return this.cache['article-title'] = title;
 };
 
-Readability.prototype.getDocument = function(notDeprecated) {
+Readability.prototype.getDocument = function (notDeprecated) {
   if (!notDeprecated) {
     console.warn('The method `getDocument()` is deprecated, using `document` property instead.');
   }
   return this._document;
 };
 
-Readability.prototype.getHTML = function(notDeprecated) {
+Readability.prototype.getHTML = function (notDeprecated) {
   if (!notDeprecated) {
     console.warn('The method `getHTML()` is deprecated, using `html` property instead.');
   }
@@ -168,7 +187,7 @@ function read(html, options, callback) {
   }
 
   var overrideEncoding = options.encoding,
-      preprocess = options.preprocess;
+    preprocess = options.preprocess;
 
   options.encoding = null;
   delete options.preprocess;
@@ -177,7 +196,7 @@ function read(html, options, callback) {
   if (['http:', 'https:', 'unix:', 'ftp:', 'sftp:'].indexOf(parsedURL.protocol) === -1) {
     jsdomParse(null, null, html);
   } else {
-    request(html, options, function(err, res, buffer) {
+    request(html, options, function (err, res, buffer) {
       if (err) {
         return callback(err);
       }
@@ -197,7 +216,7 @@ function read(html, options, callback) {
       buffer = buffer.toString();
 
       if (preprocess) {
-        preprocess(buffer, res, content_type, function(err, buffer) {
+        preprocess(buffer, res, content_type, function (err, buffer) {
           if (err) return callback(err);
           jsdomParse(null, res, buffer);
         });
@@ -216,7 +235,7 @@ function read(html, options, callback) {
     if (!body) return callback(new Error('Empty story body returned from URL'));
     jsdom.env({
       html: body,
-      done: function(errors, window) {
+      done: function (errors, window) {
         if (meta) {
           window.document.originalURL = meta.request.uri.href;
         } else {
@@ -248,7 +267,7 @@ function read(html, options, callback) {
 }
 
 module.exports = read;
-module.exports.read = function() {
+module.exports.read = function () {
   console.warn('`readability.read` is deprecated. Just use `var read = require("node-readability"); read(url...);`.');
   return read.apply(this, arguments);
 };
