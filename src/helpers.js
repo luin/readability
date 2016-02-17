@@ -130,7 +130,12 @@ var grabArticle = module.exports.grabArticle = function (document, preserveUnlik
         continueFlag = true;
       }
     }
-
+    //Remove all the hidden elements
+    if (!continueFlag && node.style.display == "none") {
+      dbg("Removing hidden element");
+      node.parentNode.removeChild(node);
+      continueFlag = true;
+    }
     // Turn all divs that don't have children block level elements into p's
     if (!continueFlag && node.tagName === 'DIV') {
       if (node.innerHTML.search(regexps.divToPElementsRe) === -1) {
@@ -413,7 +418,7 @@ function getClassWeight(e) {
  **/
 function clean(e, tag) {
   var targetList = e.getElementsByTagName(tag);
-  var isEmbed = (tag == 'object' || tag == 'embed');
+  var isEmbed = (tag == 'object' || tag == 'embed' || tag == 'iframe');
 
 
 

@@ -3,6 +3,7 @@ var request = require('request');
 var helpers = require('./helpers');
 var encodinglib = require("encoding");
 var urllib = require('url');
+var extractor = require('unfluff');
 
 exports.debug = function (debug) {
   helpers.debug(debug);
@@ -41,6 +42,9 @@ function Readability(window, options) {
   this.__defineGetter__('author', function () {
     return this.getAuthor(true);
   });
+  this.__defineGetter__('image', function () {
+    return this.getMainImage(true);
+  });
 }
 
 Readability.prototype.close = function () {
@@ -61,7 +65,7 @@ Readability.prototype.getAuthor = function (notDeprecated) {
 
   var author = helpers.grabAuthor(this._document);
   if (author === '') {
-    return this.cache['article-author'] = false;
+    return this.cache['article-author'] = null;
   } else {
     return this.cache['article-author'] = author;
   }
@@ -127,6 +131,18 @@ Readability.prototype.getHTML = function (notDeprecated) {
     console.warn('The method `getHTML()` is deprecated, using `html` property instead.');
   }
   return this._document.getElementsByTagName('html')[0].innerHTML;
+};
+Readability.prototype.getMainImage = function (notDeprecated) {
+  if (!notDeprecated) {
+    console.warn('The method `getMainImage()` is deprecated, using `html` property instead.');
+  }
+  try {
+    var data = extractor(this._document.getElementsByTagName('html')[0].innerHTML);
+    return data.image;
+  } catch (e) {
+    return null;
+  };
+
 };
 
 function _findHTMLCharset(htmlbuffer) {
