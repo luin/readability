@@ -1,10 +1,10 @@
-var readInternal = require('../src/readability');
-var helpers = require('../src/helpers');
+var readInternal = require('../src/readability-output');
+var helpers = require('../src/readability-processor');
 var XLSX = require('XLSX');
 var jsdiff = require('diff');
 var request = require('request');
 var parseString = require('xml2js').parseString;
-var categoryFile = require('../test/category.json');
+var categoryFile = require('../test-result/category.json');
 var async = require('async');
 
 var readability = require('readability-api');
@@ -15,18 +15,9 @@ readability.configure({
   parser_token: 'f24a39ddc5d705ce79993948f86cb65bcde0d709'
 });
 
-/* 
-  --------Readability Score--------
-  Total Score 70 with Image
-  
-  ***Custom***
-  
-  ***Custom***
-  --------Readability Score--------
-*/
 var ws_name = "SheetJS";
 var categories = categoryFile.NewsCategories.ProfessionalCatList;
-var dataMain = [["src", "URL", "hasTitle", "titleMatched", "hasImage", "hasAuthor", "hasContent", "hasReadableParsed", "score"]];
+var dataMain = [["src", "URL", "hasTitle", "titleMatched", "hasImage", "hasAuthor", "hasContent", "hasRedirection", "PageNotFound"]];
 var runTest = function () {
   var XMLPath = "sources.xml";
   var rawJSON = loadXMLDoc(XMLPath, function (err, result) {
@@ -47,45 +38,38 @@ var runTest = function () {
             if (err) {
               console.log("Read Internal Series ERR");
               console.log(err);
+              if (err.status >= 400 && err.status < 511) {
+                console.log("Page not found");
+              }
               return seriesCallback(err);
             }
             return seriesCallback(null, read);
           });
-        },
-        function (seriesCallback) {
-          console.log("Series second Function");
-          var parser = new readability.parser();
-          parser.parse(url, function (err, parsed) {
-            if (err) {
-              console.log("Read External Series ERR");
-              console.log(err);
-              return seriesCallback(err);
-            }
-            return seriesCallback(null, parsed);
-          });
         }], function (err, result) {
         console.log("InnerLoop Series final callback start here");
         if (err) {
-          dataMain.push([src, url, false, false, false, false, false, false, 0]);
           console.log("Series Function Error...");
           console.log(err);
+          if (err.status >= 400 && err.status < 511) {
+            dataMain.push([src, url, false, false, false, false, false, false, true]);
+          } else {
+            dataMain.push([src, url, false, false, false, false, false, false, false]);
+          }
           return mainCallback(null);
         }
         console.log("title: " + title);
-        var parsed = result[1];
         var read = result[0];
         if (!read) {
-          dataMain.push([src, url, false, false, false, false, false, false, 0]);
           console.log("Read object is undefined");
+          dataMain.push([src, url, false, false, false, false, false, false, false]);
           return mainCallback(null);
         }
         //Initially Checking Image cause it will take time to download and then Score calcualtion will start
         checkImage(read.image, function (isImageValid, functionScore) {
-          console.log("ImageValidity: " + isImageValid);
           var hasTitle = false;
+          var titleMatched = false;
           if (read.title && read.title != '') {
             hasTitle = true;
-            var titleMatched = false;
             if (compareTitle(title, read.title)) {
               titleMatched = true;
             }
@@ -95,31 +79,10 @@ var runTest = function () {
             hasAuthor = true;
           }
           var hasContent = false;
-          var rex = /(<([^>]+)>)/ig;
-          if (typeof read.content == "string") {
-            var strContent = (read.content).replace(rex, "").trim();
-          } else {
-            strContent = '';
-          }
-          if (strContent.length > 10) {
+          if (read.length > 25) {
             hasContent = true;
           }
-          var hasReadableParsed = false;
-          if (parsed) {
-            hasReadableParsed = true;
-          }
-          var score = 0;
-          if (titleMatched) {
-            score += 25;
-          }
-          if (hasTitle) {
-            score += 5;
-          }
-          if (hasAuthor) {
-            score += 15;
-          }
-          score += Math.min(Math.floor(strContent.length / 100), 10);
-          dataMain.push([src, url, hasTitle, titleMatched, isImageValid, hasAuthor, hasContent, hasReadableParsed, score]);
+          dataMain.push([src, url, hasTitle, titleMatched, isImageValid, hasAuthor, hasContent, read.redirection, false]);
           console.log("InnerCallback Function Called in next line...");
           return mainCallback(null);
         });
@@ -133,90 +96,6 @@ var runTest = function () {
     });
   });
 }();
-var generateData = function (callback) {
-  var data = [["S.no.", "Category", "Domain", "URL", "hasTitle", "titleMatched", "hasImage", "hasAuthor", "hasContent", "score"]];
-  for (var i = 0; i < categories.length; i++) {
-    var category = categories[i];
-    var processUrl = function (callback) {
-      request('http://synd.qiosk.com/rss/?pgSize=25&catidlist=' + category.Id + '&f=1&pg=0', function (error, response, body) {
-        if (error) {
-          console.log(error);
-        } else {
-          parseString(body, function (err, result) {
-            if (err) {
-              console.log(err);
-            } else {
-              result.rss.channel[0].item.forEach(function (obj, index) {
-                var rowItem = [];
-                var url = obj.link_orig[0];
-                var title = obj.title[0];
-                var desc = obj.description[0];
-                readInternal(url, function (err, read) {
-                  if (err) {
-                    console.log(err);
-                    return;
-                  }
-                  // Create a parser object 
-                  var parser = new readability.parser();
-                  parser.parse(url, function (err, parsed) {
-                    if (!parsed) {
-                      //Initially Checking Image cause it will take time to download and then Score calcualtion will start
-                      //Scoring on image -- Max Score 20
-                      checkImage(read.image, function (isImageValid, functionScore) {
-                        var score = 0;
-                        score = score + functionScore;
-                        //Scoring on title -- Max Score 30
-                        var hasTitle = false;
-                        if (read.title && read.title != '') {
-                          hasTitle = true;
-                          score += 10;
-                          var titleMatched = false;
-                          if (compareTitle(title, read.title)) {
-                            score += 10;
-                            titleMatched = true;
-                          }
-                          if (read.title.length > parsed.title.length) {
-                            score += 10;
-                          }
-                        }
-                        //Scoring on author -- Max Score 10
-                        var hasAuthor = false;;
-                        if (read.author && read.author != '') {
-                          hasAuthor = true;
-                          score += 10;
-                        }
-                        //Scoring on content -- Max Score 10
-                        var hasContent = false;
-
-                        var rex = /(<([^>]+)>)/ig;
-                        var strContent = (read.content).replace(rex, "").trim().length;
-                        var strParsedContent = (parsed.content).replace(rex, "").trim().length;
-                        if (strContent > strParsedContent && strContent > desc.length) {
-                          score += 10;
-                          hasContent = true;
-                        }
-                        console.log(score);
-                        if (isImageValid) {
-                          console.log(score / 70 * 100);
-                        } else {
-                          console.log(score / 60 * 100);
-                        }
-                        data.push([index, category.Name, domain, url, hasTitle, titleMatched, isImageValid, hasAuthor, hasContent, score]);
-                      });
-                    }
-                  });
-                });
-              });
-            }
-          });
-        };
-      });
-    }(addData);
-    console.log(category);
-    break;
-  }
-  callback(data);
-};
 
 function loadXMLDoc(filePath, jsonCallback) {
   var fs = require('fs');
