@@ -1,6 +1,6 @@
 var readInternal = require('../src/readability-output');
 var helpers = require('../src/readability-processor');
-var XLSX = require('XLSX');
+var XLSX = require('xlsx');
 var jsdiff = require('diff');
 var request = require('request');
 var parseString = require('xml2js').parseString;
