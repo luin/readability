@@ -8,13 +8,10 @@
     "type": "git",
     "url": "https://github.com/kashifeqbal/readability.git"
   },
-  "bin": {
-    "readability": "./src/cli.js"
-  },
   "scripts": {
     "test": "mocha -R spec"
   },
-  "main": "./src/readability",
+  "main": "./src/readability-output",
   "dependencies": {
     "async": "^1.5.2",
     "encoding": "~0.1.7",
