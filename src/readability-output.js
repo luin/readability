@@ -101,7 +101,7 @@ function read(html, callback) {
         }
       } else {
         err = new Error();
-        err.status = 401;
+        err.status = 404;
         return callback(err);
       }
     });
