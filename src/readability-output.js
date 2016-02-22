@@ -135,6 +135,9 @@ function read(html, callback) {
           var readability_procesor = new helpers.ReadabilityProcessor(window.document.originalURL, window.document, options);
           // add meta information to callback
           var obj = readability_procesor.parse();
+          if (!obj) {
+            return callback(new Error('No object found'));
+          }
           obj.redirection = redirection;
           callback(null, obj, meta);
         } catch (ex) {

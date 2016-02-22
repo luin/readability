@@ -900,6 +900,7 @@ ReadabilityProcessor.prototype = {
       // finding the content, and the sieve approach gives us a higher likelihood of
       // finding the -right- content.
       if (this._getInnerText(articleContent, true).length < 500) {
+        this.log("Article content innerText size is greater than 500");
         page.innerHTML = pageCacheHtml;
 
         if (this._flagIsActive(this.FLAG_STRIP_UNLIKELYS)) {
@@ -909,6 +910,7 @@ ReadabilityProcessor.prototype = {
         } else if (this._flagIsActive(this.FLAG_CLEAN_CONDITIONALLY)) {
           this._removeFlag(this.FLAG_CLEAN_CONDITIONALLY);
         } else {
+          this.log("Article content is returning null after checking all the flags");
           return null;
         }
       } else {
@@ -1792,6 +1794,8 @@ ReadabilityProcessor.prototype = {
 
     var metadata = this._getArticleMetadata();
     var articleTitle = metadata.title || this._getArticleTitle();
+
+    console.log(articleTitle);
 
     var articleContent = this._grabArticle();
     if (!articleContent)
