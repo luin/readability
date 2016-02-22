@@ -113,7 +113,11 @@ function read(html, callback) {
       return callback(error);
     }
     if (typeof body !== 'string') body = body.toString();
-    if (!body) return callback(new Error('Empty story body returned from URL'));
+    if (!body) {
+      var err = new Error('Empty story body returned from URL');
+      err.status = 204
+      return callback(err);
+    }
     jsdom.env({
       html: body,
       done: function (errors, window) {
@@ -122,23 +126,28 @@ function read(html, callback) {
         } else {
           window.document.originalURL = null;
         }
-
         if (errors) {
           window.close();
           return callback(errors);
         }
         if (!window.document.body) {
           window.close();
-          return callback(new Error('No body tag was found.'));
+          var err = new Error('No body tag was found.');
+          err.status = 204
+          return callback(err);
         }
         try {
-          var readability_procesor = new helpers.ReadabilityProcessor(window.document.originalURL, window.document, options);
+          var readability_procesor = new helpers.ReadabilityProcessor(window, options);
           // add meta information to callback
           var obj = readability_procesor.parse();
           if (!obj) {
-            return callback(new Error('No object found'));
+            readability_procesor.close();
+            var err = new Error('Unable to parse');
+            err.status = 204
+            return callback(err);
           }
           obj.redirection = redirection;
+          readability_procesor.close();
           callback(null, obj, meta);
         } catch (ex) {
           window.close();

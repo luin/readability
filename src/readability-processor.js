@@ -20,11 +20,11 @@ var Node = {
  * @param {HTMLDocument} doc     The document to parse.
  * @param {Object}       options The options object.
  */
-var ReadabilityProcessor = module.exports.ReadabilityProcessor = function (uri, doc, options) {
+var ReadabilityProcessor = module.exports.ReadabilityProcessor = function (window, options) {
   options = options || {};
-
-  this._uri = uri;
-  this._doc = doc;
+  this.window = window;
+  this._uri = window.document.originalURL;
+  this._doc = window.document;
   this._biggestFrame = false;
   this._articleByline = null;
   this._articleDir = null;
@@ -71,8 +71,14 @@ var ReadabilityProcessor = module.exports.ReadabilityProcessor = function (uri, 
     this.log = function () {};
   }
 }
-
 ReadabilityProcessor.prototype = {
+  close: function () {
+    if (this._window) {
+      this._window.close();
+    }
+    this._window = null;
+    this._doc = null;
+  },
   FLAG_STRIP_UNLIKELYS: 0x1,
   FLAG_WEIGHT_CLASSES: 0x2,
   FLAG_CLEAN_CONDITIONALLY: 0x4,
