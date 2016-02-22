@@ -650,6 +650,11 @@ ReadabilityProcessor.prototype = {
             continue;
           }
         }
+        if (node.style.display == "none") {
+          this.log("Removing hidden candidate - " + matchString);
+          node = this._removeAndGetNext(node);
+          continue;
+        }
 
         if (this.DEFAULT_TAGS_TO_SCORE.indexOf(node.tagName) !== -1) {
           elementsToScore.push(node);
@@ -676,8 +681,7 @@ ReadabilityProcessor.prototype = {
                 p.textContent = childNode.textContent;
                 p.style.display = 'inline';
                 p.className = 'readability-styled';
-                if (childNode.tagName)
-                  node.replaceChild(p, childNode);
+                node.replaceChild(p, childNode);
               }
             });
           }
