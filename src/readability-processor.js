@@ -670,7 +670,8 @@ ReadabilityProcessor.prototype = {
                 p.textContent = childNode.textContent;
                 p.style.display = 'inline';
                 p.className = 'readability-styled';
-                node.replaceChild(p, childNode);
+                if (childNode.tagName)
+                  node.replaceChild(p, childNode);
               }
             });
           }
@@ -1794,8 +1795,6 @@ ReadabilityProcessor.prototype = {
 
     var metadata = this._getArticleMetadata();
     var articleTitle = metadata.title || this._getArticleTitle();
-
-    console.log(articleTitle);
 
     var articleContent = this._grabArticle();
     if (!articleContent)

@@ -1,6 +1,6 @@
 {
   "name": "node-readability-kashif",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "author": "Kashif Eqbal",
   "description": "Turning any web page into a clean view.",
   "homepage": "https://github.com/kashifeqbal/readability",
@@ -15,7 +15,7 @@
   "dependencies": {
     "async": "^1.5.2",
     "encoding": "~0.1.7",
-    "jsdom": "^6.3.0",
+    "jsdom": "3.1.2",
     "minimist": "^1.2.0",
     "readability-api": "^0.4.0",
     "request": "~2.40.0",

@@ -33,4 +33,10 @@ describe('Error, Redirection and image test', function () {
       done();
     });
   });
+  it('should', function (done) {
+    read('http://feedproxy.google.com/~r/BpsResearchDigest/~3/ZESlk0ICMwk/sexual-arousal-has-similar-effect-on.html', function (err, read) {
+      should.exist(read);
+      done();
+    });
+  });
 });
