@@ -1,31 +1,23 @@
 {
-  "name": "node-readability",
-  "version": "2.1.5",
-  "author": "Zihua Li",
+  "name": "node-readability-kashif",
+  "version": "3.1.0",
+  "author": "Kashif Eqbal",
   "description": "Turning any web page into a clean view.",
-  "homepage": "https://github.com/luin/node-readability",
+  "homepage": "https://github.com/kashifeqbal/readability",
   "repository": {
     "type": "git",
-    "url": "git://github.com/luin/node-readability.git"
-  },
-  "bin": {
-    "readability": "./src/cli.js"
+    "url": "https://github.com/kashifeqbal/readability.git"
   },
   "scripts": {
     "test": "mocha -R spec"
   },
-  "main": "./src/readability",
-  "licenses": [
-    {
-      "type": "Apache License 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
-    }
-  ],
+  "main": "./src/readability-output",
   "dependencies": {
     "encoding": "~0.1.7",
-    "jsdom": "^6.3.0",
+    "jsdom": "3.1.2",
     "minimist": "^1.2.0",
-    "request": "~2.40.0"
+    "request": "~2.40.0",
+    "unfluff": "^0.11.0"
   },
   "engines": {
     "node": ">= 2"
