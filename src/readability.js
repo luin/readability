@@ -108,13 +108,17 @@ Readability.prototype.getTextBody = function(notDeprecated) {
   }
 
   var articleContent = helpers.grabArticle(this._document);
-  var allParagraphs = articleContent.getElementsByTagName("p");
+  var rootElement = articleContent.childNodes[0];
   var textBody = '';
-  for (var i = 0; i < allParagraphs.length; i++) {
-    var p = allParagraphs[i];
-    var text = helpers.getInnerText(p);
-    textBody += text;
-    if ((i + 1) < allParagraphs.length) textBody += '\n';
+  if (rootElement) {
+    var textElements = rootElement.childNodes;
+    for (var i = 0; i < textElements.length; i++) {
+      var el = textElements[i];
+      var text = helpers.getInnerText(el);
+      if (!text) continue;
+      textBody += text;
+      if ((i + 1) < textElements.length) textBody += '\n';
+    }
   }
 
   return this.cache['article-text-body'] = textBody;
