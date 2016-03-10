@@ -135,7 +135,7 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
     var grandParentNode = parentNode.parentNode;
     var innerText = getInnerText(paragraph);
 
-    // If this paragraph is less than 25 characters, don't even count it. 
+    // If this paragraph is less than 25 characters, don't even count it.
     if (innerText.length < 25) continue;
 
     // Initialize readability data for the parent.
@@ -645,7 +645,7 @@ function initializeNode(node) {
       node.readability.contentScore -= 5;
       break;
   }
-  
+
   if (node.attributes.itemscope) {
     node.readability.contentScore += 5;
     if (node.attributes.itemtype &&
