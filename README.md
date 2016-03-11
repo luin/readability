@@ -107,6 +107,10 @@ The article content of the web page. Return `false` if failed.
 
 The article title of the web page. It's may not same to the text in the `<title>` tag.
 
+### textBody
+
+A string containing all the text found on the page
+
 ### html
 
 The original html of the web page.

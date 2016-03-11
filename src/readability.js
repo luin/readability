@@ -32,6 +32,9 @@ function Readability(window, options) {
   this.__defineGetter__('title', function() {
     return this.getTitle(true);
   });
+  this.__defineGetter__('textBody', function() {
+    return this.getTextBody(true);
+  });
   this.__defineGetter__('html', function() {
     return this.getHTML(true);
   });
@@ -95,6 +98,31 @@ Readability.prototype.getTitle = function(notDeprecated) {
 
   return this.cache['article-title'] = title;
 };
+
+Readability.prototype.getTextBody = function(notDeprecated) {
+  if (!notDeprecated) {
+    console.warn('The method `getTextBody()` is deprecated, using `textBody` property instead.');
+  }
+  if (typeof this.cache['article-text-body'] !== 'undefined') {
+    return this.cache['article-text-body'];
+  }
+
+  var articleContent = helpers.grabArticle(this._document);
+  var rootElement = articleContent.childNodes[0];
+  var textBody = '';
+  if (rootElement) {
+    var textElements = rootElement.childNodes;
+    for (var i = 0; i < textElements.length; i++) {
+      var el = textElements[i];
+      var text = helpers.getInnerText(el);
+      if (!text) continue;
+      textBody += text;
+      if ((i + 1) < textElements.length) textBody += '\n';
+    }
+  }
+
+  return this.cache['article-text-body'] = textBody;
+}
 
 Readability.prototype.getDocument = function(notDeprecated) {
   if (!notDeprecated) {
