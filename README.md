@@ -124,7 +124,7 @@ response object from request lib. If you need to get current url after all redir
 
 ## Why not Cheerio
 
-This lib is using jsdom to parser HTML instead of cheerio because some data such as image size and element visibility isn't able to acquire when using cheerio, which will significantly affect the result. 
+This lib is using jsdom to parse HTML instead of cheerio because some data such as image size and element visibility isn't able to acquire when using cheerio, which will significantly affect the result.
 
 ## Contributors
 
