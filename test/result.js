@@ -1,4 +1,5 @@
 require('./mock-helpers.js');
+var fs = require('fs');
 var read = require('../src/readability');
 
 describe('result', function() {
@@ -15,7 +16,7 @@ describe('result', function() {
   });
 
   it('should get document with frames', function(done) {
-    read('http://www.whitehouse.gov/', function(err, read) {
+    read(fs.readFileSync(__dirname + '/white-house.html').toString(), function(err, read) {
       var dom = read.document;
       read.title.should.equal('The White House');
       read.close.should.be.a.Function
