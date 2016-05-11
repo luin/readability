@@ -16,7 +16,7 @@ describe('result', function() {
   });
 
   it('should get document with frames', function(done) {
-    read(fs.readFileSync(__dirname + '/white-house.html').toString(), function(err, read) {
+    read(fs.readFileSync(__dirname + '/fixtures/white-house.html').toString(), function(err, read) {
       var dom = read.document;
       read.title.should.equal('The White House');
       read.close.should.be.a.Function
