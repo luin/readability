@@ -20,7 +20,7 @@ describe('Regression Tests', function() {
   },
   {
     fixture: 'mediashift',
-    title: 'Columbia’s Lede Program Aims to Go Beyond the Data Hype',
+    title: 'Columbia\'s Lede Program Aims to Go Beyond the Data Hype',
     include: [
       'This all began at Joe',
       'Big Data models and practices aren',
@@ -33,7 +33,7 @@ describe('Regression Tests', function() {
   },
   {
     fixture: 'kayiprihtim',
-    title: '“Çizgi Roman Uyarlamaları İnceleme Yarışması” Sonuçlandı',
+    title: '"Çizgi Roman Uyarlamaları İnceleme Yarışması" Sonuçlandı',
     include: [
       'nice seneler diliyoruz',
       'roman sitelerinden',

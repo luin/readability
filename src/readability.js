@@ -79,7 +79,7 @@ Readability.prototype.getTitle = function(notDeprecated) {
     return this.cache['article-title'];
   }
 
-  var title = this._document.title;
+  var title = _findMetaTitle(this._document) || this._document.title;
   var betterTitle;
   var commonSeparatingCharacters = [' | ', ' _ ', ' - ', '«', '»', '—'];
 
@@ -137,6 +137,20 @@ Readability.prototype.getHTML = function(notDeprecated) {
   }
   return this._document.getElementsByTagName('html')[0].innerHTML;
 };
+
+function _findMetaTitle(document) {
+  var metaTags = document.getElementsByTagName('meta');
+  var tag;
+
+  for(var i = 0; i < metaTags.length; i++) {
+    tag = metaTags[i];
+
+    if(tag.getAttribute('property') === 'og:title' || tag.getAttribute('name') === 'twitter:title'){
+      return tag.getAttribute('content');
+    }
+  }
+  return null;
+}
 
 function _findHTMLCharset(htmlbuffer) {
 
