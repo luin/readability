@@ -17,6 +17,28 @@ describe('Regression Tests', function() {
     notInclude: [
       'Donate to Wikipedia'
     ]
+  },
+  {
+    fixture: 'mediashift',
+    title: 'Columbia’s Lede Program Aims to Go Beyond the Data Hype',
+    include: [
+      'This all began at Joe',
+      'Big Data models and practices aren',
+      'Data-driven journalism in larger contexts',
+    ],
+    notInclude: [
+      'Self-Publishing Your Book: Where’s the Money',
+      'About EducationShift',
+    ],
+  },
+  {
+    fixture: 'kayiprihtim',
+    title: '“Çizgi Roman Uyarlamaları İnceleme Yarışması” Sonuçlandı',
+    include: [
+      'nice seneler diliyoruz',
+      'roman sitelerinden',
+    ],
+    notInclude: ['Yorum', 'Kategoriler'],
   }].forEach(function(testCase) {
     it('can extract ' + testCase.fixture + ' articles', function(done) {
       var html = fs.readFileSync(articleFixtures + '/' + testCase.fixture + '.html').toString();
