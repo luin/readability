@@ -9,6 +9,8 @@ if(argv.h){
     "prints readability version of [URL].\n" +
     "Usage: readability             " +
     "reads HTML from stdin and prints readable version to stdout.\n" +
+    "Usage: readability --content   " +
+    "prints article.content.\n" +
     "Usage: readability -h          " +
     "prints this help.\n"
   );
@@ -18,7 +20,11 @@ if(argv.h){
 var callback = function(err, article){
   if(err)
     console.error(err);
-  process.stdout.write(article.html);
+  if (argv.content) {
+    process.stdout.write(article.content);
+  } else {
+    process.stdout.write(article.html);
+  }
 }
 
 if(typeof argv.url === 'string'){
