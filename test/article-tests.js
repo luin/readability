@@ -39,6 +39,19 @@ describe('Regression Tests', function() {
       'roman sitelerinden',
     ],
     notInclude: ['Yorum', 'Kategoriler'],
+  },
+  {
+    fixture: 'psychology-today',
+    title: 'Do We Become Less Optimistic As We Grow Older?',
+    include: [
+      'It requires thinking about the future',
+      'found that from early to late adulthood',
+      'This discussion about age and optimism skirts',
+    ],
+    notInclude: [
+      'You Might Also Like',
+      'Most Popular',
+    ],
   }].forEach(function(testCase) {
     it('can extract ' + testCase.fixture + ' articles', function(done) {
       var html = fs.readFileSync(articleFixtures + '/' + testCase.fixture + '.html').toString();
