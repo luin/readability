@@ -65,6 +65,12 @@ var prepDocument = module.exports.prepDocument = function(document) {
       }
     }
   }
+  
+  // Strip out all <script> tags, as they *should* be useless
+  var scripts = document.getElementsByTagName('script');
+  [].forEach.call(scripts, function (node) {
+    node.parentNode.removeChild(node);
+  });
 
   // turn all double br's into p's
   // note, this is pretty costly as far as processing goes. Maybe optimize later.
