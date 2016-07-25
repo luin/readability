@@ -52,6 +52,21 @@ describe('Regression Tests', function() {
       'You Might Also Like',
       'Most Popular',
     ],
+  },
+  {
+    fixture: 'ux-milk',
+    title: 'より良いCSSを書くための様々なCSS設計まとめ',
+    include: [
+      'CSSは誰でも簡単に自由に',
+      'SMACSSでは、スタイル',
+      'Scoped CSS自体は、CSS設',
+      'どのCSS設',
+    ],
+    notInclude: [
+      'Web制作の作業効率を格段にア',
+      'ライフハック',
+      '個人情報の取り扱いについて',
+    ],
   }].forEach(function(testCase) {
     it('can extract ' + testCase.fixture + ' articles', function(done) {
       var html = fs.readFileSync(articleFixtures + '/' + testCase.fixture + '.html').toString();

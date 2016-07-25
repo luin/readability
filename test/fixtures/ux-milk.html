@@ -1,0 +1,748 @@
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="http://uxmilk.jp/wp-content/themes/uxmilk/images/favicon.ico">
+    <link rel="pingback" href="http://uxmilk.jp/xmlrpc.php">
+    <link rel="apple-touch-icon-precomposed" href="http://uxmilk.jp/wp-content/themes/uxmilk/images/apple-touch-icon-precomposed.png">
+    <link rel="alternate" hreflang="ja" href="http://uxmilk.jp">
+    <link rel="alternate" type="application/rss+xml" href="http://uxmilk.jp/feed">
+    <link rel="alternate" media="handheld" href="http://uxmilk.jp">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto+Condensed:700italic">
+    <link rel="stylesheet" type="text/css" media="all" id="ux-milk-stylesheet-css" href="http://uxmilk.jp/wp-content/themes/uxmilk/style.css?ver=1469181441">
+    <link rel="stylesheet" type="text/css" href="http://uxmilk.jp/wp-content/themes/uxmilk/css/pc.css?ver=1469181441">
+    <link rel="stylesheet" type="text/css" href="http://uxmilk.jp/wp-content/themes/uxmilk/css/mobile.css?ver=1469181441">
+    <link rel="stylesheet" type="text/css" media="screen" href="http://uxmilk.jp/wp-content/themes/uxmilk/js/jquery.mmenu.css?ver=1469181441">
+    <meta name="apple-itunes-app" content="app-id=1052057127">
+
+    <title>より良いCSSを書くための様々なCSS設計まとめ | UX MILK</title><meta name="description" content="CSSは誰でも簡単に自由に書けるのですが、好きなように書いていると「ここを変更したら、違うところが崩れた」といったようにすぐに破綻してしまいます。 さらに、複数人で書いている場合は、各々が好きなように書いて読むだけでも苦 […]"><link rel="stylesheet" id="crayon-css" href="http://uxmilk.jp/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=_2.7.2_beta" type="text/css" media="all">
+<link rel="stylesheet" id="contact-form-7-css" href="http://uxmilk.jp/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.4.2" type="text/css" media="all">
+<link rel="stylesheet" id="fi_buttons-css" href="http://uxmilk.jp/wp-content/plugins/feedly-insight/css/fi-buttons-deprecated.css?ver=0.9.17%20beta" type="text/css" media="all">
+<link rel="stylesheet" id="wordpress-popular-posts-css" href="http://uxmilk.jp/wp-content/plugins/wordpress-popular-posts/style/wpp.css?ver=3.3.3" type="text/css" media="all">
+<script async="" src="//b92.yahoo.co.jp/search/?p=RLUFPGOLRQ&amp;label=&amp;ref=http%3A%2F%2Fuxmilk.jp%2F43386&amp;rref=&amp;pt=&amp;item=&amp;cat=&amp;price=&amp;quantity=&amp;r=1469462439.303342"></script><script id="facebook-jssdk" src="//connect.facebook.net/ja_JP/sdk.js#xfbml=1&amp;version=v2.4" async=""></script><script async="" src="//www.google-analytics.com/analytics.js"></script><script id="twitter-wjs" src="http://platform.twitter.com/widgets.js"></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"http:\/\/uxmilk.jp\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"\u8cbc\u308a\u4ed8\u3051\u306b\u30b3\u30d4\u30fc\u3001%s\u306b%s\u3092\u62bc\u3057\u3066\u3001","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://uxmilk.jp/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=_2.7.2_beta"></script>
+<link rel="https://api.w.org/" href="http://uxmilk.jp/wp-json/">
+<link rel="canonical" href="http://uxmilk.jp/43386">
+<link rel="alternate" type="application/json+oembed" href="http://uxmilk.jp/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fuxmilk.jp%2F43386">
+<link rel="alternate" type="text/xml+oembed" href="http://uxmilk.jp/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fuxmilk.jp%2F43386&amp;format=xml">
+				<!-- WordPress Popular Posts v3.3.3 -->
+				<script type="text/javascript">//<![CDATA[
+
+					var sampling_active = 0;
+					var sampling_rate   = 100;
+					var do_request = false;
+
+					if ( !sampling_active ) {
+						do_request = true;
+					} else {
+						var num = Math.floor(Math.random() * sampling_rate) + 1;
+						do_request = ( 1 === num );
+					}
+
+					if ( do_request ) {
+
+						// Create XMLHttpRequest object and set variables
+						var xhr = ( window.XMLHttpRequest )
+						  ? new XMLHttpRequest()
+						  : new ActiveXObject( "Microsoft.XMLHTTP" ),
+						url = 'http://uxmilk.jp/wp-admin/admin-ajax.php',
+						params = 'action=update_views_ajax&token=87bd32a003&wpp_id=43386';
+						// Set request method and target URL
+						xhr.open( "POST", url, true );
+						// Set request header
+						xhr.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
+						// Hook into onreadystatechange
+						xhr.onreadystatechange = function() {
+							if ( 4 === xhr.readyState && 200 === xhr.status ) {
+								if ( window.console && window.console.log ) {
+									window.console.log( xhr.responseText );
+								}
+							}
+						};
+						// Send request
+						xhr.send( params );
+
+					}
+
+				//]]></script>
+				<!-- End WordPress Popular Posts v3.3.3 -->
+				    <!-- ogp -->
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:site_name" content="UX MILK">
+
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="">
+        <meta property="og:url" content="http://uxmilk.jp/43386">
+        <meta property="og:image" content="http://data.uxmilk.jp/wp-content/uploads/2016/07/cssmethodologies.jpg">
+        <meta property="og:description" content="CSSは誰でも簡単に自由に書けるのですが、好きなように書いていると「ここを変更したら、違うところが崩れた」といったようにすぐに破綻してしまいます。
+
+さらに…">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@uxmilkman">
+        <meta name="twitter:title" content="">
+        <meta name="twitter:url" content="http://uxmilk.jp/43386">
+        <meta name="twitter:image" content="http://data.uxmilk.jp/wp-content/uploads/2016/07/cssmethodologies.jpg">
+        <meta name="twitter:description" content="CSSは誰でも簡単に自由に書けるのですが、好きなように書いていると「ここを変更したら、違うところが崩れた」といったようにすぐに破綻してしまいます。
+
+さらに、複数人で書いている場合は、各々が好きな…">
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', '710558959080952');
+        fbq('track', "PageView");
+    </script>
+    <noscript>
+        &lt;img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=710558959080952&amp;ev=PageView&amp;noscript=1"/&gt;
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+<script type="text/javascript" charset="utf-8" async="" src="https://platform.twitter.com/js/button.1813ea3f78757294e1ba1cea21b068a0.js"></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, "hiragino kaku gothic pro",meiryo,"ms pgothic",sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://static.xx.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f9;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:18px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;bottom:0;left:0;right:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29487d;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f9;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v2/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://static.xx.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style></head>
+
+<body><div id="menu_mobile" class="mm-menu mm-offcanvas"><div class="mm-panel mm-hasnavbar mm-opened mm-current" id="mm-1"><div class="mm-navbar"><a class="mm-title">Menu</a></div><ul class="mm-listview">
+              <li><a href="http://uxmilk.jp">ホーム</a></li>
+              <li><a href="http://uxmilk.jp/guidelines">ガイドライン</a></li>
+              <li><a href="http://uxmilk.jp/terms">利用規約</a></li>
+              <li><a href="http://uxmilk.jp/privacy">プライバシーポリシー</a></li>
+              <li><a href="http://uxmilk.jp/staff">スタッフ</a></li>
+              <li><a href="http://uxmilk.jp/license-and-support" class="list">ライセンス＆協力</a></li>
+              <li><a href="http://uxmilk.jp/inquiry">お問い合わせ</a></li>
+            </ul></div></div>
+    <a id="top"></a>
+    <div id="mm-0" class="mm-page mm-slideout"><div id="label" class="pconly">
+                    <strong>UX MILK｜クリエイターのためのUXメディア</strong>
+            </div><div id="menu-wrap" class="">
+
+
+        <header id="header" role="banner">
+            <div id="header_wrapper">
+                <a href="#menu_mobile" class="menu_button mobileonly"></a>
+                <div id="site_title_mobile">
+                    <a href="http://uxmilk.jp">
+                        <img src="http://uxmilk.jp/wp-content/themes/uxmilk/images/uxmilk_logo_w.png" alt="UX MILK">
+                    </a>
+                </div>
+
+                <div class="site-logo">
+                    <a href="http://uxmilk.jp">
+                        <img src="http://uxmilk.jp/wp-content/themes/uxmilk/images/milkman_logo.png" alt="UX MILK">
+                    </a>
+                </div>
+
+                <div class="metabar clearfix pconly">
+                    <a href="#" target="_blank"><img src="http://uxmilk.jp/wp-content/themes/uxmilk/images/icon_search.png" alt="検索"></a>
+                </div>
+
+                <div id="searchForm" class="pconly">
+                    <form method="get" action="http://uxmilk.jp/">
+                      <div class="searchform">
+                        <input type="text" name="s">
+                        <input type="submit" value="">
+                      </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="category-nav">
+              <ul>
+                                <li><a class="current" href="http://uxmilk.jp/category/design">デザイン</a></li>
+                <li><a href="http://uxmilk.jp/category/programming">プログラミング</a></li>
+                <li><a href="http://uxmilk.jp/category/marketing">マーケティング</a></li>
+                <li><a href="http://uxmilk.jp/category/technology">テクノロジー</a></li>
+                <li><a href="http://uxmilk.jp/category/lifehack">ライフハック</a></li>
+              </ul>
+            </div>
+
+        </header>
+
+<div id="contents">
+    <div id="main">
+        <div id="wp_content">
+            <div class="entry">
+                <div class="header">
+                    <ul class="breadcrumbs"><li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+            <a href="http://uxmilk.jp" itemprop="url">
+                <span itemprop="title">UX MILK</span>
+            </a>&nbsp;&gt;&nbsp;
+        </li><li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+              <a href="http://uxmilk.jp/css" itemprop="url">
+                  <span itemprop="title">CSS</span>
+              </a>&nbsp;&gt;&nbsp;
+            </li><li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+          <a href="http://uxmilk.jp/43386" itemprop="url"><span itemprop="title">より良いCSSを書くための様々なCSS設計まとめ</span></a>
+        </li></ul>                    <div class="clearfix"></div>
+                    <div class="entry-title clearfix">
+                      <a id="toc-1"></a>
+                        <h1>より良いCSSを書くための様々なCSS設計まとめ</h1>
+                    </div>
+
+                    <div class="entry-meta">
+                        <div class="entry-author">UX MILK編集部</div>
+                        <div class="entry-date">2016/7/11更新</div>
+                        <div class="entry-tag"><a href="http://uxmilk.jp/css">CSS <span class="num">(68)</span></a></div>
+                    </div>
+
+
+                    <!-- Social buttons -->
+                    <div class="snsShareArea">
+                            <!-- Facebook -->
+    <a class="btn--facebook" href="http://www.facebook.com/share.php?u=http://uxmilk.jp/43386&amp;t=%E3%82%88%E3%82%8A%E8%89%AF%E3%81%84CSS%E3%82%92%E6%9B%B8%E3%81%8F%E3%81%9F%E3%82%81%E3%81%AE%E6%A7%98%E3%80%85%E3%81%AACSS%E8%A8%AD%E8%A8%88%E3%81%BE%E3%81%A8%E3%82%81" onclick="showPopupWindow(this.href, 'window', 555, 660); return false;">
+        <span class="icon-facebook"></span>
+                    <span class="social-count">217</span>
+            </a>
+
+    <!-- Twitter -->
+    <a class="btn--twitter" href="http://twitter.com/share?url=http://uxmilk.jp/43386&amp;text=%E3%82%88%E3%82%8A%E8%89%AF%E3%81%84CSS%E3%82%92%E6%9B%B8%E3%81%8F%E3%81%9F%E3%82%81%E3%81%AE%E6%A7%98%E3%80%85%E3%81%AACSS%E8%A8%AD%E8%A8%88%E3%81%BE%E3%81%A8%E3%82%81&amp;via=uxmilkman&amp;tw_p=tweetbutton&amp;related=uxmilkman" onclick="showPopupWindow(this.href, 'window', 550, 300); return false;">
+        <span class="icon-twitter"></span>
+            </a>
+
+    <!-- Hatena bookmark -->
+    <script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+    <a href="http://b.hatena.ne.jp/entry/http://uxmilk.jp/43386" class="hatena-bookmark-button my-hatebu btn--hatena" data-hatena-bookmark-layout="simple" title="このエントリーをはてなブックマークに追加" onclick="ga('send', 'event', 'share', 'HatenaBookmark1', this.href);" data-hatena-bookmark-initialized="1">
+        <span class="icon-hatena"></span>
+                    <span class="social-count">537</span>
+            </a>
+
+    <!-- Pocket -->
+    <a class="btn--pocket" href="http://getpocket.com/edit?url=http://uxmilk.jp/43386&amp;title=" onclick="showPopupWindow(this.href, 'window', 550, 300); return false;">
+        <span class="icon-pocket"></span>
+                    <span class="social-count">581</span>
+            </a>
+
+    <!-- Evernote -->
+    <script type="text/javascript" src="http://static.evernote.com/noteit.js" async=""></script>
+    <a class="btn--evernote" href="#" onclick="Evernote.doClip({url:'http://uxmilk.jp/43386', providerName:'UX MILK', title:'より良いCSSを書くための様々なCSS設計まとめ', contentId:'the-content', }); return false;">
+        <span class="icon-evernote"></span>
+    </a>
+
+    <!-- Slack -->
+    <script src="http://slackbutton.herokuapp.com/widget.js" type="text/javascript" async=""></script>
+    <a class="btn--slack" href="http://slackbutton.herokuapp.com/post/new?url=http://uxmilk.jp/43386" title="Send to Slack" onclick="showPopupWindow(this.href, 'window', 600, 450); return false;">
+        <span class="icon-slack"></span>
+     </a>
+                    </div>
+                </div>
+
+                <div class="text-wrapper">
+                    <div class="text">
+                        <p>CSSは誰でも簡単に自由に書けるのですが、好きなように書いていると「ここを変更したら、違うところが崩れた」といったようにすぐに破綻してしまいます。</p>
+<p>さらに、複数人で書いている場合は、各々が好きなように書いて読むだけでも苦痛なCSSが出来上がってしまいます。</p>
+<p>そこで、これらの問題を解決するために考えられたのが「CSS設計」です。</p>
+<p>今回は記事が長くなり過ぎるので、CSS設計の概要のみを説明し、参考となる公式ドキュメントへのリンクを記載しました。</p>
+<h2 id="toc0">CSS設計とは</h2>
+<p>CSS設計は、CSSを記述する時のルールとなるものです。プロジェクト毎に適したCSS設計を採用することで、「良いCSS」にすることができます。</p>
+<p>最近では、命名規則はBEMで、構成はSMACCSのように各CSS設計の概念を取り込んだオリジナルの規約をつくるといったことも多いようです。</p>
+<h3 id="toc1">「良いCSS」とは</h3>
+<p>「良いCSS」の定義として、おそらく最もよく知られているのは、以下の4つです。</p>
+<ul>
+<li>予測しやすい</li>
+<li>再利用しやすい</li>
+<li>保守しやすい</li>
+<li>拡張しやすい</li>
+</ul>
+<p><a href="https://philipwalton.com/articles/css-architecture/" target="_blank">CSS Architecture</a><br>
+ <a href="http://article.enja.io/articles/css-architecture.html" target="_blank">CSS Architecture（日本語訳）</a></p>
+<p>また、CSS設計の基本となるモジュールなどについては、MaintainableCSSが参考になります。</p>
+<p><a href="http://maintainablecss.com/" target="_blank">MaintainableCSS</a><br>
+ <a href="http://coliss.com/articles/build-websites/operation/css/maintainable-css-by-adam.html" target="_blank">MaintainableCSS（日本語訳）</a></p>
+<h3 id="toc2">マルチクラス・シングルクラス</h3>
+<p>１つの要素に対して、複数のクラスを指定するのをマルチクラス、１つないし２つ程度のクラスを指定するのをシングルクラスと呼びます。</p>
+<p>例えば、BootstrapをはじめとしたOOCSSはマルチクラスで、BEMはシングルクラスが適していると言われています。</p>
+<p>ただし、これらはそこまで厳密なものではなく、BEMだから絶対にシングルクラスにすべきという事ではありません。</p>
+<h2 id="toc3">OOCSS</h2>
+<p>OOCSS は、 Object Oriented CSSの略で、オブジェクト指向CSSなどと日本語では呼ばれます。</p>
+<p>SMACCSなどの基礎となる考え方で、以下の２つがポイントとなります。</p>
+<ul>
+<li>Container（入れ物）とContents（中身）の分離</li>
+<li>Structure（基本構造）とSkin（見た目）の分離</li>
+</ul>
+<p>Bootstrapを使ったことがある人であれば、理解しやすいのではないでしょうか。</p>
+<p>シンプルなルールなので採用がしやすい反面、Bootstrapのように各UIに統一した名前をあらかじめ決めておかないと破綻しやすいです。</p>
+<p><a href="http://oocss.org/" target="_blank">OOCSS公式サイト</a></p>
+<h2 id="toc4">BEM</h2>
+<p>BEMとは「Block」「Element」「Modifier」の略であり、要素をこの３つに分けて考える厳格な命名規則です。CSS設計で使う場合、BEMを元にしたMindBEMdingが使われます。</p>
+<p>「.Block__Element--Modifier」という命名ルールに従いクラス名を決めます。</p>
+<p>Blockは常に独立しており、ページのどこでも配置することができ、他のブロックを含んだり含まれたりすることもできます。ElementはBlockを構成する要素で、ModifierはBlockの異なる状態を表します。</p>
+<p>例えばメニューを例とすると、以下のようになります。</p>
+<ul>
+<li>Block ： .menu</li>
+<li>Element ： .menu_item</li>
+<li>Modifier ： .menu__item--current</li>
+</ul>
+<p>また、命名規則にcamelCaseを採用するなどカスタマイズして利用している人も多いです。</p>
+<p><a href="https://en.bem.info/methodology/key-concepts/" target="_blank">Key concepts | BEM</a><br>
+ <a href="https://github.com/juno/bem-methodology-ja/blob/master/definitions.md" target="_blank">Key concepts | BEM（日本語訳）</a><br>
+ <a href="https://gist.github.com/juno/6182957" target="_blank">MindBEMding（日本語訳）</a></p>
+<h2 id="toc5">SMACCS</h2>
+<p>SMACSSは、 Scalable and Modular Architecture for CSS の略で、OOCSSやBEMなどを参考に考案されました。</p>
+<p>SMACSSでは、スタイルをBase, Layout, Module, State, Theme の ５つに分けて考えます。ただし、Themeはプロジェクトによっては、使われないこともあります。</p>
+<ul>
+<li>Base : デフォルトのスタイル</li>
+<li>Layout : Moduleの配置を決めるレイアウト</li>
+<li>Module : 再利用可能なパーツ</li>
+<li>State : Layout、Module 状態</li>
+<li>Theme : Layout、Moduleの外観</li>
+</ul>
+<p>BEMより緩い命名規則と、OOCSSのようなマルチクラス設計が特徴です。公式ドキュメントは、日本語では本で読むしかなさそうです。</p>
+<p><a href="https://smacss.com/" target="_blank">Scalable and Modular Architecture for CSS</a><br>
+<a href="https://smacss.com/ja" target="_blank">Scalable and Modular Architecture for CSS（日本版）</a></p>
+<h2 id="toc6">MCSS</h2>
+<p>BEMとOOCSSの原理を基にしたCSS設計が、MCSS（Multilayer CSS）です。</p>
+<p>CSSモジュールを３つのレイヤーに分けて考えます。</p>
+<ul>
+<li>Base : 再利用可能な標準スタイルのセット</li>
+<li>Project : Baseを元にしたプロジェクト毎のスタイル</li>
+<li>Cosmetic : 色、サイズなどわずかに影響するスタイル</li>
+</ul>
+<p>Base、Project、Cosmeticのそれぞれに属するクラスを、複数指定することでUIを作成します。</p>
+<p><a href="http://operatino.github.io/MCSS/ja/" target="_blank">MCSS（日本語訳）</a></p>
+<h2 id="toc7">FLOCSS</h2>
+<p>OOCSS, SMACSS, BEM, SuitCSS, MCSSなどの考え方を取り入れたものです。</p>
+<p>命名規則はMindBEMdingを採用し、３つのレイヤーと、Objectレイヤーの子レイヤーで構成されます。</p>
+<ul>
+<li>Foundation : normalize.cssなど</li>
+<li>Layout : レイアウトのスタイル</li>
+<li>Object : コンポーネントのスタイル
+<ul>
+<li>Component : 再利用可能なコンポーネント</li>
+<li>Project : プロジェクト毎のスタイル</li>
+<li>Utility : clearfixやmarginなどの小さなスタイル</li>
+</ul>
+</li>
+</ul>
+<p>CSS設計のいいとこ取りをしたいときは、FLOCSSをベースにすると良いかもしれません。</p>
+<p><a href="https://github.com/hiloki/flocss" target="_blank">FLOCSS</a></p>
+<h2 id="toc8">CSS in JS</h2>
+<p>React.jsの流行と共に、広まりつつあるアイデアの１つです。HTMLをJSXとしてJavaScriptで扱えるようにしたように、CSSをJavaScriptのオブジェクトにして扱うという考えです。CSS設計とは異なりますが、新しいCSSの記述方法として紹介します。</p>
+<p>React.jsの開発者の<a href="https://speakerdeck.com/vjeux/react-css-in-js" target="_blank">React CSS in JS</a>によってこのアイデアが広まったとされています。</p>
+<p>現在、ReactでCSS in JSを実現するライブラリとしては、ReactStyleやRadiumなどがあります。詳しくは、<a href="https://github.com/FormidableLabs/radium/blob/master/docs/comparison/README.md" target="_blank">Reactで使えるライブラリ一覧</a>を参照してください。</p>
+<p>また、CSS in JSとCSS Modulesについて書いてある「<a href="http://postd.cc/modular-css-with-react/" target="_blank">Reactを使ったモジュラーCSS : CSS-in-JSとCSS Module</a>」も参考になります。</p>
+<h2 id="toc9">Scoped CSS</h2>
+<p>Scoped CSS自体は、CSS設計ではなくHTML5で追加された scoped属性を使ったCSSの記述方法です。</p>
+<p>基本となるのは、UIをコンポーネント化し、そのコンポーネント内でのみ適用されるCSSを記述するという考え方です。</p>
+<p>Firefox以外ではサポートされておらず、実際に使うならばPollyfillを使うか、Scoped CSSをサポートしているRiot.jsなどを使う必要があります。</p>
+<h2 id="toc10">まとめ</h2>
+<p>このほかにもSuit CSSや、最近だと<a href="http://ecss.io/" target="_blank">Enduring CSS（ECSS）</a>やAtomic DesignをベースにしたAPBCSSなどのCSS設計があります。</p>
+<p>また、React.jsなどの登場によりJavaScriptとCSSを組み合わせた新たなアプローチが登場しましたが、JavaScriptを理解しなくてはならないので採用するのはややハードルが高そうです。</p>
+<p>どのCSS設計が最適かは、メンバーとサービスの規模によって異なるのでよく検討したほうが良いでしょう。</p>
+<p><small>＊追記：APBCSSの紹介を「まとめ」に追加（2016/07/11）</small></p>
+
+                        <!-- Paging -->
+                        <!-- Paging -->
+                    </div>
+                </div>
+
+                            <div class="credit_author clearfix">
+                <div class="photo">
+                    <img src="http://data.uxmilk.jp/wp-content/uploads/2015/09/milkman_400.jpg" title="UX MILK編集部">
+                </div>
+                <div class="bio">
+                    <div class="label">著者</div>
+                                            <div class="name">UX MILK編集部</div>
+                                        <p>モノづくりのヒントになるような記事をお届けします。</p>
+                </div>
+            </div>
+
+
+                <div class="snsShareArea">
+                        <!-- Facebook -->
+    <a class="btn--facebook" href="http://www.facebook.com/share.php?u=http://uxmilk.jp/43386&amp;t=%E3%82%88%E3%82%8A%E8%89%AF%E3%81%84CSS%E3%82%92%E6%9B%B8%E3%81%8F%E3%81%9F%E3%82%81%E3%81%AE%E6%A7%98%E3%80%85%E3%81%AACSS%E8%A8%AD%E8%A8%88%E3%81%BE%E3%81%A8%E3%82%81" onclick="showPopupWindow(this.href, 'window', 555, 660); return false;">
+        <span class="icon-facebook"></span>
+                    <span class="social-count">217</span>
+            </a>
+
+    <!-- Twitter -->
+    <a class="btn--twitter" href="http://twitter.com/share?url=http://uxmilk.jp/43386&amp;text=%E3%82%88%E3%82%8A%E8%89%AF%E3%81%84CSS%E3%82%92%E6%9B%B8%E3%81%8F%E3%81%9F%E3%82%81%E3%81%AE%E6%A7%98%E3%80%85%E3%81%AACSS%E8%A8%AD%E8%A8%88%E3%81%BE%E3%81%A8%E3%82%81&amp;via=uxmilkman&amp;tw_p=tweetbutton&amp;related=uxmilkman" onclick="showPopupWindow(this.href, 'window', 550, 300); return false;">
+        <span class="icon-twitter"></span>
+            </a>
+
+    <!-- Hatena bookmark -->
+    <script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+    <a href="http://b.hatena.ne.jp/entry/http://uxmilk.jp/43386" class="hatena-bookmark-button my-hatebu btn--hatena" data-hatena-bookmark-layout="simple" title="このエントリーをはてなブックマークに追加" onclick="ga('send', 'event', 'share', 'HatenaBookmark1', this.href);" data-hatena-bookmark-initialized="1">
+        <span class="icon-hatena"></span>
+                    <span class="social-count">537</span>
+            </a>
+
+    <!-- Pocket -->
+    <a class="btn--pocket" href="http://getpocket.com/edit?url=http://uxmilk.jp/43386&amp;title=" onclick="showPopupWindow(this.href, 'window', 550, 300); return false;">
+        <span class="icon-pocket"></span>
+                    <span class="social-count">581</span>
+            </a>
+
+    <!-- Evernote -->
+    <script type="text/javascript" src="http://static.evernote.com/noteit.js" async=""></script>
+    <a class="btn--evernote" href="#" onclick="Evernote.doClip({url:'http://uxmilk.jp/43386', providerName:'UX MILK', title:'より良いCSSを書くための様々なCSS設計まとめ', contentId:'the-content', }); return false;">
+        <span class="icon-evernote"></span>
+    </a>
+
+    <!-- Slack -->
+    <script src="http://slackbutton.herokuapp.com/widget.js" type="text/javascript" async=""></script>
+    <a class="btn--slack" href="http://slackbutton.herokuapp.com/post/new?url=http://uxmilk.jp/43386" title="Send to Slack" onclick="showPopupWindow(this.href, 'window', 600, 450); return false;">
+        <span class="icon-slack"></span>
+     </a>
+                </div>
+
+
+
+                <div id="cta_sns">
+                    <div class="milkman">
+                        <img src="http://uxmilk.jp/wp-content/themes/uxmilk/images/footer_chara_1.png" alt="milkman">
+                    </div>
+
+                    <div class="follow-area">
+                        <p>平日毎朝更新！気に入ったらフォローしてね</p>
+                        <div class="fb-like fb_iframe_widget" data-href="https://www.facebook.com/uxmilk" data-colorscheme="light" data-layout="button" data-show-faces="false" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=&amp;color_scheme=light&amp;container_width=500&amp;href=https%3A%2F%2Fwww.facebook.com%2Fuxmilk&amp;layout=button&amp;locale=ja_JP&amp;sdk=joey&amp;show_faces=false"><span style="vertical-align: bottom; width: 72px; height: 20px;"><iframe name="f91fc671d059d4" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" src="https://www.facebook.com/v2.4/plugins/like.php?app_id=&amp;channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2Fbz-D0tzmBsw.js%3Fversion%3D42%23cb%3Df3ceb0d8c4c00e4%26domain%3Duxmilk.jp%26origin%3Dhttp%253A%252F%252Fuxmilk.jp%252Ff1cef307583b8d4%26relation%3Dparent.parent&amp;color_scheme=light&amp;container_width=500&amp;href=https%3A%2F%2Fwww.facebook.com%2Fuxmilk&amp;layout=button&amp;locale=ja_JP&amp;sdk=joey&amp;show_faces=false" style="border: none; visibility: visible; width: 72px; height: 20px;" class=""></iframe></span></div>
+                        <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-follow-button twitter-follow-button-rendered" title="Twitter Follow Button" src="http://platform.twitter.com/widgets/follow_button.a9003d9964444592507bbb36b98c709b.ja.html#dnt=false&amp;id=twitter-widget-0&amp;lang=ja&amp;screen_name=uxmilkman&amp;show_count=false&amp;show_screen_name=true&amp;size=m&amp;time=1469462471739" style="position: static; visibility: visible; width: 172px; height: 20px;" data-screen-name="uxmilkman"></iframe>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                        <a href="http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp%3A%2F%2Fuxmilk.jp%2Ffeed" target="blank" rel="”nofollow”"><img id="feedlyFollow" src="http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-small_2x.png" alt="follow us in feedly" width="66" height="20"></a>
+                    </div>
+                </div>
+
+                <div id="entry-related">
+                    <h3 class="section-title">関連記事</h3>
+<div class="related clearfix">
+            <div class="related-item">
+            <div class="related-image">
+                <a href="http://uxmilk.jp/12510" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/06/stock_CSS3.jpg')"></a>
+            </div>
+            <div class="related-title">
+                <a href="http://uxmilk.jp/12510">CSSのdisplayプロパティの使い方</a>
+            </div>
+        </div>
+            <div class="related-item">
+            <div class="related-image">
+                <a href="http://uxmilk.jp/14300" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/06/stock_CSS3.jpg')"></a>
+            </div>
+            <div class="related-title">
+                <a href="http://uxmilk.jp/14300">CSSで行間を設定する方法</a>
+            </div>
+        </div>
+            <div class="related-item">
+            <div class="related-image">
+                <a href="http://uxmilk.jp/14792" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/06/stock_CSS3.jpg')"></a>
+            </div>
+            <div class="related-title">
+                <a href="http://uxmilk.jp/14792">CSSで回り込みを解除する方法</a>
+            </div>
+        </div>
+            <div class="related-item">
+            <div class="related-image">
+                <a href="http://uxmilk.jp/44126" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/07/jquery-cheat-sheat-400x210.png')"></a>
+            </div>
+            <div class="related-title">
+                <a href="http://uxmilk.jp/44126">Web制作の作業効率を格段にアップさせる便利なチートシートまとめ</a>
+            </div>
+        </div>
+            <div class="related-item">
+            <div class="related-image">
+                <a href="http://uxmilk.jp/38929" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/06/pink-hair-selfie-bun-idea-333x250.jpg')"></a>
+            </div>
+            <div class="related-title">
+                <a href="http://uxmilk.jp/38929">Webデザインのアイデアに困ったら覗きたいサイト10選</a>
+            </div>
+        </div>
+            <div class="related-item">
+            <div class="related-image">
+                <a href="http://uxmilk.jp/43555" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/07/7slides_react-378x250.jpg')"></a>
+            </div>
+            <div class="related-title">
+                <a href="http://uxmilk.jp/43555">これからReactを勉強する人が最初に見るべきスライド７選</a>
+            </div>
+        </div>
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sub">
+      <ul class="sidebar_unit">
+        <li>
+            <h2>TRENDING</h2>
+            <p>デザイン人気記事</p>
+        </li>
+        <li>
+            <ul class="new-post-list">
+                                    <li>
+                        <a href="http://uxmilk.jp/44126" class="new-post-thumbnail" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/07/jquery-cheat-sheat-150x79.png');" title="Web制作の作業効率を格段にアップさせる便利なチートシートまとめ"></a>
+                        <a href="http://uxmilk.jp/44126">
+                            Web制作の作業効率を格段にアップさせる便利なチートシートまとめ                        </a>
+                    </li>
+                                    <li>
+                        <a href="http://uxmilk.jp/38929" class="new-post-thumbnail" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/06/pink-hair-selfie-bun-idea-150x113.jpg');" title="Webデザインのアイデアに困ったら覗きたいサイト10選"></a>
+                        <a href="http://uxmilk.jp/38929">
+                            Webデザインのアイデアに困ったら覗きたいサイト10選                        </a>
+                    </li>
+                                    <li>
+                        <a href="http://uxmilk.jp/32419" class="new-post-thumbnail" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/05/2016-05-20_15h19_15-150x72.png');" title="WebデザイナーがフォローすべきTumblrアカウント10選"></a>
+                        <a href="http://uxmilk.jp/32419">
+                            WebデザイナーがフォローすべきTumblrアカウント10選                        </a>
+                    </li>
+                            </ul>
+        </li>
+    </ul>
+
+          <ul class="sidebar_unit">
+      <li>
+        <h2>NEW POSTS</h2>
+        <p>デザインの新着記事</p>
+            <ul class="new-post-list">
+                    <li>
+                <a href="http://uxmilk.jp/45571" class="new-post-thumbnail" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/06/stock_Photoshop-150x113.jpg')" title="PNG画像を圧縮できるサイト・ソフトまとめ" target="_self"></a>
+                <a href="http://uxmilk.jp/45571">
+                    PNG画像を圧縮できるサイト・ソフトまとめ                </a>
+            </li>
+                    <li>
+                <a href="http://uxmilk.jp/45672" class="new-post-thumbnail" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/07/1RfgBtFNjU_t8Pu3oW4CcIg-150x140.jpeg')" title="元SpotifyのデザイナーがポケモンGOのリリース初週で感じたこと" target="_self"></a>
+                <a href="http://uxmilk.jp/45672">
+                    元SpotifyのデザイナーがポケモンGOのリリース初週で感じたこと                </a>
+            </li>
+                    <li>
+                <a href="http://uxmilk.jp/45726" class="new-post-thumbnail" style="background-image:url('http://data.uxmilk.jp/wp-content/uploads/2016/07/antique_book_cover-150x65.jpg')" title="商用利用可能なレトロなフリーフォント10選" target="_self"></a>
+                <a href="http://uxmilk.jp/45726">
+                    商用利用可能なレトロなフリーフォント10選                </a>
+            </li>
+            </ul>
+          </li>
+    </ul>
+
+          <ul class="sidebar_unit pconly" id="sidebar_toc">
+      <li>
+        <h2>CONTENTS</h2>
+        <p>目次</p>
+        <ul class="toc_backtotop">
+          <li style="background-color: rgb(239, 239, 239);"><a href="#toc-1">記事トップ</a></li>
+        </ul>
+        <ul class="toc">
+    <li><a href="#toc0">CSS設計とは</a></li><ul><li><a href="#toc1">「良いCSS」とは</a></li><li><a href="#toc2">マルチクラス・シングルクラス</a></li></ul><li><a href="#toc3">OOCSS</a></li><li><a href="#toc4">BEM</a></li><li><a href="#toc5">SMACCS</a></li><li><a href="#toc6">MCSS</a></li><li><a href="#toc7">FLOCSS</a></li><li><a href="#toc8">CSS in JS</a></li><li><a href="#toc9">Scoped CSS</a></li><li><a href="#toc10">まとめ</a></li>        </ul>
+      </li>
+    </ul>
+
+
+</div>
+</div>
+
+  <footer class="footer">
+    <div class="footer-content clearfix">
+      <nav class="footer-navigation" role="navigation">
+        <p class="footer-title">カテゴリー</p>
+        	<li class="cat-item cat-item-963"><a href="http://uxmilk.jp/category/information" title="UX MILKのお知らせやイベントに関する情報を掲載しています。">お知らせ</a>
+</li>
+	<li class="cat-item cat-item-294"><a href="http://uxmilk.jp/category/technology" title="現代では日々新しいテクノロジー領域が生まれています。人々の生活をより豊かにする新しいプロダクトなどはまさに現代のユーザー体験をもとに作られているはずです。そうした先端技術のニュースやトピックなどをご紹介していきます。">テクノロジー</a>
+</li>
+	<li class="cat-item cat-item-292"><a href="http://uxmilk.jp/category/design" title="モノづくりにおける様々なデザインの記事をご紹介します。デザインと言うとビジュアルデザインの話が取り上げられがちですが、UX MILKではそれ以外にも仕組みや体験のデザインの考え方から実装部分まで、幅広いトピックを取り上げます。">デザイン</a>
+</li>
+	<li class="cat-item cat-item-960"><a href="http://uxmilk.jp/category/programming" title="現代のモノづくりにおいて、プログラミングは避けて通れない分野になってきています。プログラミングの基礎的なリファレンスから、ちょっとしたコツやTIPSなどをお届けします。">プログラミング</a>
+</li>
+	<li class="cat-item cat-item-295"><a href="http://uxmilk.jp/category/marketing" title="誰もがアプリやサービスを作れるようになってきている今、誰のために何を作って、どう届けるのか、というマーケティングの考え方はUXを考える上でとても重要です。モノを作る人と売る人の差はもはやなくなってきており、誰もがマーケティングを気にしなければならない時代といっても過言ではありません。">マーケティング</a>
+</li>
+	<li class="cat-item cat-item-961"><a href="http://uxmilk.jp/category/lifehack" title="我々は日々様々なツールやサービスを使ってものづくりをしたり、仕事をしたりしています。作業効率をあげるためにはツールなどの使い方もキチンと知っておかなければなりません。身近なツールのちょっとしたコツや活用法などをご紹介していきます。">ライフハック</a>
+</li>
+      </nav>
+
+      <nav class="footer-navigation" role="navigation">
+        <p class="footer-title">メニュー</p>
+        <ul>
+          <li><a href="/license-and-support" class="list" rel="”nofollow”">提携メディア一覧</a></li>
+          <li><a href="/keyword-list" class="list" rel="”nofollow”">キーワード一覧</a></li>
+          <li><a href="/authors" class="list" rel="”nofollow”">著者一覧</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-navigation" role="navigation">
+        <p class="footer-title">UX MILK</p>
+        <ul>
+          <li><a href="/" class="list mobileonly">トップページ</a></li>
+          <li><a href="/guidelines" class="list" rel="nofollow">ガイドライン</a></li>
+          <li><a href="/terms" class="list" rel="nofollow">利用規約</a></li>
+          <li><a href="/privacy" class="list" rel="nofollow">個人情報の取り扱いについて</a></li>
+          <li><a href="http://miner.co.jp/" class="list" target="_blank" rel="nofollow">運営会社について</a></li>
+          <li><a href="https://goo.gl/sGiFjQ" class="list" target="_blank" rel="nofollow">インターン募集</a></li>
+          <li><a href="/staff" class="list" rel="nofollow">スタッフ</a></li>
+          <li><a href="http://goo.gl/forms/ITSJzlsM3XqIzLKn2" rel="nofollow">お問い合わせ</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-navigation" role="navigation">
+        <a href="https://goo.gl/x0x95R" target="blank"><img src="/wp-content/themes/uxmilk/images/ad_intern.jpg" alt="学生編集インターン募集"></a>
+        <a href="http://goo.gl/HQbTCK" target="blank"><img src="/wp-content/themes/uxmilk/images/ad_writer2.jpg" alt="寄稿者募集"></a>
+        <a href="http://goo.gl/forms/iYLBMtAYDZ" target="blank"><img src="/wp-content/themes/uxmilk/images/ad_uxjam_lt3.jpg" alt="登壇者募集"></a>
+      </nav>
+    </div>
+    <div id="copyright">
+      © MINER STUDIO, Inc. All rights reserved.
+    </div><!-- .copyright -->
+  </footer>
+</div></div>
+
+    <!-- #menu-wrap -->
+
+<script type="text/javascript" src="http://uxmilk.jp/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/uxmilk.jp\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","recaptchaEmpty":"\u3042\u306a\u305f\u304c\u30ed\u30dc\u30c3\u30c8\u3067\u306f\u306a\u3044\u3053\u3068\u3092\u8a3c\u660e\u3057\u3066\u304f\u3060\u3055\u3044\u3002","sending":"\u9001\u4fe1\u4e2d ..."};
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://uxmilk.jp/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.4.2"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="http://uxmilk.jp/wp-content/themes/uxmilk/js/jquery.mmenu.min.js?ver=1469181441"></script>
+<script type="text/javascript" src="http://uxmilk.jp/wp-content/themes/uxmilk/js/jquery.sticky-kit.min.js?ver=1469181441"></script>
+<script type="text/javascript" src="http://uxmilk.jp/wp-includes/js/wp-embed.min.js?ver=4.5.3"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-64580985-1', 'auto');
+
+                        ga('set', 'contentGroup1', "CSS");
+
+    ga('send', 'pageview');
+
+  </script>
+
+<!-- showPopupWindow -->
+<script type="text/javascript">
+    function showPopupWindow(url, title, w, h) {
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+        var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+        width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+        var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+        var top = ((height / 2) - (h / 2)) + dualScreenTop;
+        var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+        if (window.focus) newWindow.focus(); // Puts focus on the newWindow
+    }
+</script>
+
+<!-- facebook -->
+<script>
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.4";
+        js.async = true;
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- paging -->
+    <script type="text/javascript">
+        $(function() {
+        $('.pagesplit a').has('.none').addClass('display-none');
+        });
+    </script>
+
+<!-- sticky-kit -->
+      <script type="text/javascript">
+      $("#sidebar_toc").stick_in_parent({parent: '#contents' });
+    </script>
+
+<!-- mmenu -->
+<script type="text/javascript">
+    $(function() {
+        $('#menu_mobile').mmenu({
+            slidingSubmenus  : true,
+            closeOnClick     : true,
+            position         : "left",
+            configuration    : {
+                selectedClass    : "Selected",
+                pageNodetype     : "div",
+                menuNodetype     : "nav",
+                slideDuration    : 400
+            }
+        });
+    });
+</script>
+
+<!-- Yahoo Code for your Target List -->
+<script type="text/javascript" language="javascript">
+  /* <![CDATA[ */
+  var yahoo_retargeting_id = 'RLUFPGOLRQ';
+  var yahoo_retargeting_label = '';
+  var yahoo_retargeting_page_type = '';
+  var yahoo_retargeting_items = [{item_id: '', category_id: '', price: '', quantity: ''}];
+  /* ]]> */
+</script>
+<script type="text/javascript" language="javascript" src="//b92.yahoo.co.jp/js/s_retargeting.js"></script>
+
+<!-- Table of Contents -->
+<script type="text/javascript">
+  var tocs = [];
+  var current_toc = -999;
+  var setTimeoutId = null;
+
+  $(window).load(function(){
+    var idCounter = 0;
+    $(".entry .text h2, .entry .text h3").each(function() {
+      this.id = "toc" + idCounter;
+      idCounter++;
+      tocs.push(this.offsetTop);
+    });
+    check_scroll_postion()
+  });
+
+  // Adjust scroll position
+  $('a[href^=#]').click(function(){
+    event.preventDefault();
+    var target = $(this.hash);
+
+    if (!target.length) return;
+
+    var targetY = target.offset().top - 30;
+    $('body').animate({scrollTop: targetY}, 500, 'swing');
+  });
+
+  $(window).scroll(function(){
+    if(setTimeoutId) return false;
+    setTimeoutId = setTimeout(function() {
+      if (tocs.length > 0) check_scroll_postion();
+      setTimeoutId = null;
+    }, 100);
+  });
+
+  function check_scroll_postion() {
+    if (current_toc != -1 && window.pageYOffset < tocs[0]) {
+      change_toc_background_color(-1);
+    }
+
+    $.each(tocs, function(i, offsetY) {
+      if (i == current_toc) return true;
+
+      if (tocs[i+1]) {
+        if (window.pageYOffset > offsetY && window.pageYOffset <= tocs[i+1]) {
+          change_toc_background_color(i);
+        }
+      } else {
+        if (window.pageYOffset > offsetY) {
+          change_toc_background_color(i);
+        }
+      }
+    });
+  }
+
+  function change_toc_background_color(index) {
+    $("a[href=#toc" + index + "]").parent().css('background-color', '#efefef');
+    $("a[href=#toc" + current_toc + "]").parent().css('background-color', '');
+    current_toc = index;
+  }
+</script>
+
+
+
+<div id="mm-blocker" class="mm-slideout"></div><div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="http://staticxx.facebook.com/connect/xd_arbiter/r/bz-D0tzmBsw.js?version=42#channel=f1cef307583b8d4&amp;origin=http%3A%2F%2Fuxmilk.jp" style="border: none;"></iframe><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="https://staticxx.facebook.com/connect/xd_arbiter/r/bz-D0tzmBsw.js?version=42#channel=f1cef307583b8d4&amp;origin=http%3A%2F%2Fuxmilk.jp" style="border: none;"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div></div><iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: none;"></iframe></body></html>
