@@ -1,5 +1,5 @@
 var jsdom = require('jsdom');
-var request = require('request');
+var request = require('request').defaults({maxRedirects:3});
 var helpers = require('./helpers');
 var encodinglib = require("encoding");
 var urllib = require('url');
