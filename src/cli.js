@@ -1,4 +1,4 @@
-#!/usr/bin/env iojs
+#!/usr/bin/env node
 var read = require("./readability.js");
 var argv = require("minimist")(process.argv.slice(2));
 
