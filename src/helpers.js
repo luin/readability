@@ -16,6 +16,8 @@ var regexps = {
   attributeRe: /blog|post|article/i
 };
 
+var pCountMaybeCandidate = 4;
+
 var dbg;
 exports.debug = function(debug) {
   dbg = (debug) ? console.log : function() {};
@@ -99,9 +101,12 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
     if (!preserveUnlikelyCandidates) {
       var unlikelyMatchString = node.className + '\n' + node.id;
       if (unlikelyMatchString.search(regexps.unlikelyCandidatesRe) !== -1 && unlikelyMatchString.search(regexps.okMaybeItsACandidateRe) == -1 && node.tagName !== 'HTML' && node.tagName !== "BODY") {
-        dbg("Removing unlikely candidate - " + unlikelyMatchString);
-        node.parentNode.removeChild(node);
-        continueFlag = true;
+        var pnodes = node.getElementsByTagName('p');
+        if (pnodes.length < pCountMaybeCandidate) {
+          dbg("Removing unlikely candidate - " + unlikelyMatchString);
+          node.parentNode.removeChild(node);
+          continueFlag = true;
+        }
       }
     }
 
