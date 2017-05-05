@@ -22,7 +22,7 @@ describe('Error, Redirection and image test', function () {
     });
   });
   it('should redirect', function (done) {
-    read('http://rss.justia.com/~r/AtlantaEmploymentLawyerBlogCom/~3/GQPPBTA9pSw/employment-discrimination-may-involve-many-different-types-of-conduct.html', function (err, read) {
+    read('https://www.nytimes.com/2017/04/15/world/middleeast/syria-bashar-al-assad-evidence.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=photo-spot-region&region=top-news&WT.nav=top-news&_r=0', function (err, read) {
       read.redirection.should.be.equal(true);
       done();
     });

@@ -1,5 +1,5 @@
 var jsdom = require('jsdom');
-var request = require('request');
+var request = require('request').defaults({maxRedirects:20, jar: true});
 var helpers = require('./readability-processor');
 var encodinglib = require("encoding");
 var urllib = require('url');

@@ -26,4 +26,11 @@ describe('result', function () {
       done();
     });
   });
+  it('should work with NYTimes and accept cookie and redirection', function (done) {
+    read('https://www.nytimes.com/2017/04/15/world/middleeast/syria-bashar-al-assad-evidence.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=photo-spot-region&region=top-news&WT.nav=top-news&_r=0', function (err, read) {
+      should.not.exist(err);
+      should.exist(read);
+      done();
+    });
+  });
 });
