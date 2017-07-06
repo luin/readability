@@ -306,7 +306,7 @@ function killBreaks(e) {
  * @param Element
  * @return string
  **/
-getInnerText = exports.getInnerText = function(e, normalizeSpaces) {
+var getInnerText = exports.getInnerText = function(e, normalizeSpaces) {
   var textContent = "";
 
   normalizeSpaces = (typeof normalizeSpaces == 'undefined') ? true : normalizeSpaces;
