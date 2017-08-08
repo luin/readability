@@ -116,11 +116,20 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
         // EXPERIMENTAL
         Array.prototype.slice.call(node.childNodes).forEach(function(childNode) {
           if (childNode.nodeType == 3 /*TEXT_NODE*/ ) {
-            // use span instead of p. Need more tests.
-            dbg("replacing text node with a span tag with the same content.");
-            var span = document.createElement('span');
-            span.innerHTML = childNode.nodeValue;
-            childNode.parentNode.replaceChild(span, childNode);
+            var nextSibling = childNode.nextSibling
+            if (nextSibling && nextSibling.tagName == 'BR') {
+              dbg("replacing text node followed by br with a p tag with the same content.");
+              var p = document.createElement('p');
+              p.innerHTML = childNode.nodeValue;
+              childNode.parentNode.removeChild(nextSibling)
+              childNode.parentNode.replaceChild(p, childNode);
+            } else {
+              // use span instead of p. Need more tests.
+              dbg("replacing text node with a span tag with the same content.");
+              var span = document.createElement('span');
+              span.innerHTML = childNode.nodeValue;
+              childNode.parentNode.replaceChild(span, childNode);
+            }
           }
         });
       }
