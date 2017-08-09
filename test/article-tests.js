@@ -67,6 +67,20 @@ describe('Regression Tests', function() {
       'ライフハック',
       '個人情報の取り扱いについて',
     ],
+  },
+  {
+    fixture: 'douban-group-topic',
+    title: '半年面试了上百人，经验总结。。',
+    include: [
+      '看到组里很多初出社会的小伙伴愁工作的事，我想给大家讲一讲个人的经验，希望尽量给大家一点帮助，少走一点弯路',
+      '其他就不一一列举了，重点是展示出【高匹配度】',
+      '最近工作遇到瓶颈，毕竟不会一直一帆风顺，调整好了之后会继续分享经验的，谢谢大家这么久的关注。',
+    ],
+    notInclude: [
+      '最赞回应',
+      '最新话题',
+      '北京豆网科技有限公司',
+    ]
   }].forEach(function(testCase) {
     it('can extract ' + testCase.fixture + ' articles', function(done) {
       var html = fs.readFileSync(articleFixtures + '/' + testCase.fixture + '.html').toString();
