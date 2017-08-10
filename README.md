@@ -19,7 +19,7 @@ Turn any web page into a clean view. This module is based on arc90's readability
 
     $ npm install node-readability
 
-Note that as of our 2.0.0 release, this module only works with Node.js >= 2.0. In the meantime you are still welcome to install a release in the 1.x series(by `npm install node-readability@1`) if you use an older Node.js version.
+Note that from v2.0.0, this module only works with Node.js >= 2.0. In the meantime you are still welcome to install a release in the 1.x series(by `npm install node-readability@1`) if you use an older Node.js version.
 
 ## Usage
 
