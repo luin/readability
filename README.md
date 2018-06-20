@@ -81,6 +81,24 @@ read(url, {
   });
 ```
 
+- `candidateFilters` which allows you to set your own filters for candidate tags.
+
+options.candidateFilters = [callback(candidateNode, index)]
+```javascript
+read(url, {
+  candidateFilters: [
+     // Filter any article tags with a type of "video"
+    function (candidateNode) {
+      if (candidateNode.tagName === 'ARTICLE' && candidateNode.getAttribute('type') === 'video') {
+        return false;
+      }
+      return true;
+    }
+  ]}, function(err, article, response) {
+    //...
+  });
+```
+
 - `preprocess` which should be a function to check or modify downloaded source before passing it to readability.
 
 options.preprocess = callback(source, response, contentType, callback);

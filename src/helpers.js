@@ -22,9 +22,14 @@ exports.debug = function(debug) {
 };
 
 var cleanRules = [];
+var candidateFilters = [];
 
 module.exports.setCleanRules = function(rules) {
   cleanRules = rules;
+};
+
+module.exports.setCandidateFilters = function(filters) {
+  candidateFilters = filters;
 };
 
 /**
@@ -65,7 +70,7 @@ var prepDocument = module.exports.prepDocument = function(document) {
       }
     }
   }
-  
+
   // Strip out all <script> tags, as they *should* be useless
   var scripts = document.getElementsByTagName('script');
   [].forEach.call(scripts, function (node) {
@@ -180,6 +185,12 @@ var grabArticle = module.exports.grabArticle = function(document, preserveUnlike
     // Add the score to the parent. The grandparent gets half. */
     parentNode.readability.contentScore += contentScore;
     grandParentNode.readability.contentScore += contentScore / 2;
+  }
+
+  if (candidateFilters.length) {
+    candidateFilters.forEach(function(filterBy) {
+      candidates = candidates.filter(filterBy);
+    });
   }
 
 

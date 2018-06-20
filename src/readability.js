@@ -18,6 +18,7 @@ function Readability(window, options) {
   this.bodyCache = null;
   this._articleContent = '';
   helpers.setCleanRules(options.cleanRulers || []);
+  helpers.setCandidateFilters(options.candidateFilters || []);
 
   this.cache = {};
 
