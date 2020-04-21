@@ -86,11 +86,12 @@ read(url, {
 options.preprocess = callback(source, response, contentType, callback);
 ```javascript
 read(url, {
-  preprocess: function(source, response, contentType, callback) {
-    if (source.length > maxBodySize) {
-      return callback(new Error('too big'));
+    preprocess: function(source, response, contentType, callback) {
+      if (source.length > maxBodySize) {
+        return callback(new Error('too big'));
+      }
+      callback(null, source);
     }
-    callback(null, source);
   }, function(err, article, response) {
     //...
   });
