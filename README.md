@@ -2,8 +2,6 @@
 
 Turn any web page into a clean view. This module is based on arc90's readability project.
 
-[![Build Status](https://travis-ci.org/luin/readability.png?branch=master)](https://travis-ci.org/luin/readability)
-
 ## Features
 1. Optimized for more websites.
 2. Supporting HTML5 tags (`article`, `section`) and Microdata API.
@@ -134,7 +132,3 @@ https://github.com/luin/node-readability/graphs/contributors
 ## License
 
 This code is under the Apache License 2.0.  http://www.apache.org/licenses/LICENSE-2.0
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/luin/node-readability/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
