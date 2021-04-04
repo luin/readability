@@ -15,16 +15,21 @@ if(argv.h){
   return;
 }
 
-var callback = function(err, article){
-  if(err)
+var callback = function(err, article, meta){
+  if(err){
     console.error(err);
-  process.stdout.write(article.html);
+    process.exit(-1);
+  }
+  if(!article.content){
+    process.exit(-2);
+  }
+  process.stdout.write(article.content);
 }
 
 if(typeof argv.url === 'string'){
   read(argv.url, callback);
 } else {
-  var html;
+  var html = "";
   process.stdin.on("data", function(chunk){
     html += chunk;
   });

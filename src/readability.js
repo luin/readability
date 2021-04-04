@@ -27,7 +27,7 @@ function Readability(window, options) {
   };
 
   this.__defineGetter__('content', function() {
-    return this.getContent(true);
+    return this.getContent(this, true);
   });
   this.__defineGetter__('title', function() {
     return this.getTitle(true);
@@ -51,7 +51,7 @@ Readability.prototype.close = function() {
   this._document = null;
 };
 
-Readability.prototype.getContent = function(notDeprecated) {
+Readability.prototype.getContent = function(Readability, notDeprecated) {
   if (!notDeprecated) {
     console.warn('The method `getContent()` is deprecated, using `content` property instead.');
   }
@@ -66,6 +66,13 @@ Readability.prototype.getContent = function(notDeprecated) {
     if (helpers.getInnerText(articleContent, false) === '') {
       return this.cache['article-content'] = false;
     }
+  }
+
+  // Add a h1 tag with the title when the articleContent doesn't contain a h1.
+  if(articleContent.getElementsByTagName("h1").length === 0){
+    var h1 = this._document.createElement("h1");
+    h1.innerHTML = Readability.title;
+    articleContent.insertBefore(h1, articleContent.childNodes[0]);
   }
 
   return this.cache['article-content'] = articleContent.innerHTML;
