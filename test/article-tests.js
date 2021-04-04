@@ -16,7 +16,7 @@ describe('Regression Tests', function() {
     ],
     notInclude: [
       'Donate to Wikipedia'
-    ]
+    ],
   },
   {
     fixture: 'mediashift',
@@ -80,11 +80,48 @@ describe('Regression Tests', function() {
       '最赞回应',
       '最新话题',
       '北京豆网科技有限公司',
-    ]
+    ],
+  },
+  {
+    fixture: 'ifeng',
+    title: '熊玲:什么样的婚姻才是鸡肋婚姻？',
+    include: [
+      '沃尔沃“憋”不住了，最高狂降8万，性能不输BBA，白菜价愣没人',
+      '打开APP',
+    ],
+    notInclude: [
+      '它是“迷恋婚姻又排拒婚姻”的一种复杂婚姻情感心理状态。它意味着即便你有千条理由走出婚姻，背后却有万种吸引力把你留在围城里。',
+      '在婚姻十字路口的人，你若要想你们的关系和好如初，就必须有重修婚姻的姿态，即必须有妥协的态度。',
+      '重修婚姻的办法很多很多，但最简单也是最核心的办法只有一个，那就是接受。',
+    ],
+  },
+  {
+    fixture: 'ifeng',
+    title: '熊玲:什么样的婚姻才是鸡肋婚姻？',
+    include: [
+      '它是“迷恋婚姻又排拒婚姻”的一种复杂婚姻情感心理状态。它意味着即便你有千条理由走出婚姻，背后却有万种吸引力把你留在围城里。',
+      '在婚姻十字路口的人，你若要想你们的关系和好如初，就必须有重修婚姻的姿态，即必须有妥协的态度。',
+      '重修婚姻的办法很多很多，但最简单也是最核心的办法只有一个，那就是接受。',
+    ],
+    notInclude: [
+      '沃尔沃“憋”不住了，最高狂降8万，性能不输BBA，白菜价愣没人',
+      '打开APP',
+    ],
+    options: {
+      candidateFilters: [
+        function (candidateNode) {
+          if (candidateNode.tagName === 'ARTICLE' && candidateNode.getAttribute('type') === 'video') {
+            return false;
+          }
+
+          return true;
+        }
+      ],
+    },
   }].forEach(function(testCase) {
     it('can extract ' + testCase.fixture + ' articles', function(done) {
       var html = fs.readFileSync(articleFixtures + '/' + testCase.fixture + '.html').toString();
-      read(html, function(error, article) {
+      read(html, testCase.options || {}, function(error, article) {
         if(error) {
           done(error)
         } else {
